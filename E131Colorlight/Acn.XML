@@ -1,0 +1,2458 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Acn</name>
+    </assembly>
+    <members>
+        <member name="M:Acn.ArtNet.Packets.ArtPollReplyPacket.UniverseAddress(System.Boolean,System.Int32)">
+            <summary>
+            Interprets the universe address to ensure compatibility with ArtNet I, II and III devices.
+            </summary>
+            <param name="outPorts">Whether to get the address for in or out ports.</param>
+            <param name="portIndex">The port index to obtain the universe for.</param>
+            <returns>The 15 Bit universe address</returns>
+        </member>
+        <member name="P:Acn.ArtNet.Sockets.ArtNetSocket.RdmId">
+            <summary>
+            Gets or sets the RDM Id to use when sending packets.
+            </summary>
+        </member>
+        <member name="P:Acn.DmxStreamer.Priority">
+            <summary>
+            Gets or sets the priority of the sACN DMX stream.
+            </summary>
+        </member>
+        <member name="T:Acn.Helpers.SlpDeviceEventArgs">
+            <summary>
+            Event args for an Slp Device Manager event
+            </summary>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceEventArgs.Device">
+            <summary>
+            Gets or sets the device.
+            </summary>
+            <value>
+            The device.
+            </value>
+        </member>
+        <member name="T:Acn.Helpers.SlpUpdateEventArgs">
+            <summary>
+             Event args for an Slp Device Manager update event
+            </summary>
+        </member>
+        <member name="P:Acn.Helpers.SlpUpdateEventArgs.Devices">
+            <summary>
+            Gets or sets the new list of devices.
+            </summary>
+            <value>
+            The devices.
+            </value>
+        </member>
+        <member name="M:Acn.Helpers.SlpUpdateEventArgs.GetDevices(Acn.Helpers.SlpDeviceState)">
+            <summary>
+            Helper to get a list of devices filtered by state
+            </summary>
+            <param name="state">The state.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Acn.Helpers.SlpDeviceState">
+            <summary>
+            Possible states of a device
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceState.New">
+            <summary>
+            Newly seen
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceState.MissedPoll">
+            <summary>
+            Missed one poll event
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceState.Disappeared">
+            <summary>
+            Seen once but missed many poll events
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceState.ReAppeared">
+            <summary>
+            Recently come back to active having missed polls
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceState.Ok">
+            <summary>
+            Device is responding
+            </summary>
+        </member>
+        <member name="T:Acn.Helpers.SlpDeviceInformation">
+            <summary>
+            Information about an slp device
+            </summary>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.Url">
+            <summary>
+            Gets or sets the URL.
+            </summary>
+            <value>
+            The URL.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.Attributes">
+            <summary>
+            Gets or sets the attributes.
+            </summary>
+            <value>
+            The attributes.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.LastContact">
+            <summary>
+            Gets or sets the time of the last contact.
+            </summary>
+            <value>
+            The last contact.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.LastUpdateId">
+            <summary>
+            Gets or sets the last update id.
+            </summary>
+            <value>
+            The last update id.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.MissedUpdates">
+            <summary>
+            Gets or sets the number of missed updates.
+            </summary>
+            <value>
+            The missed updates.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.FirstUpdateId">
+            <summary>
+            Gets or sets the id of the first update that we saw this device in
+            </summary>
+            <value>
+            The first update id.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.DiscoveryAgents">
+            <summary>
+            Gets or sets the discovery agents that have reported this device.
+            This will almost always be only one but it's possible to get to a 
+            remote device on more than one adaptor.
+            </summary>
+            <value>
+            The discovery agents.
+            </value>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceInformation.UpdateReceived(System.Int32)">
+            <summary>
+            Called when an update is recived.
+            </summary>
+            <param name="updateId">The update id.</param>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.State">
+            <summary>
+            Gets the state.
+            </summary>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceInformation.Endpoint">
+            <summary>
+            Gets or sets the remote endpoint address of this device.
+            </summary>
+            <value>
+            The endpoint.
+            </value>
+        </member>
+        <member name="T:Acn.Helpers.SlpDeviceManager">
+            <summary>
+            This class provides a helper service for software that needs to discover
+            and track SLP devices.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Helpers.SlpDeviceManager"/> class.
+            You should subscribe clients to the <see cref="E:Acn.Helpers.SlpDeviceManager.UnhandledException"/> event after construction.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.NetworkChange_NetworkAddressChanged(System.Object,System.EventArgs)">
+            <summary>
+            Called when the network IP changes or a network is connected.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.ProcessAddressChanged(System.Object)">
+            <summary>
+            Handles re-connect when the network IP address changes.
+            </summary>
+            <param name="state">not used</param>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceManager.Scope">
+            <summary>
+            Gets or sets the SLP scope.
+            </summary>
+            <remarks>Defaults to DEFAULT</remarks>
+            <value>
+            The scope.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceManager.ServiceType">
+            <summary>
+            Gets or sets the type of the service the device manager is to look for.
+            </summary>
+            <value>
+            The type of the service.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceManager.PollInterval">
+            <summary>
+            Gets or sets the poll interval.
+            This is how often the network will be polled for devices.
+            Defaults to 15 seconds.
+            </summary>
+            <value>
+            The poll interval.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceManager.FetchAttributes">
+            <summary>
+            Gets or sets a value indicating whether to attempt to fetch attributes.
+            For services that are discovered.
+            </summary>
+            <value>
+              <c>true</c> to fetch attributes; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Acn.Helpers.SlpDeviceManager.Running">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Acn.Helpers.SlpDeviceManager"/> is running (viz Polling).
+            </summary>
+            <value>
+              <c>true</c> if running; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.Start">
+            <summary>
+            Starts polling.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.Update">
+            <summary>
+            Starts an update immediately.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.Stop">
+            <summary>
+            Stops polling.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.RefreshAgents">
+            <summary>
+            Creates new agents for each network interface and opens them again.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.GetDevices">
+            <summary>
+            Gets the devices that have been discovered.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:Acn.Helpers.SlpDeviceManager.UnhandledException">
+            <summary>
+            Occurs when an unhandled exception has occurred.
+            </summary>
+            <remarks>
+            Should be logged by user code.
+            </remarks>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.RaiseUnhandledException(System.Exception)">
+            <summary>
+            Called to indicate an unhandled exception has occurred.
+            </summary>
+            <param name="ex">The exception that has not been handled.</param>
+        </member>
+        <member name="E:Acn.Helpers.SlpDeviceManager.DeviceUpdated">
+            <summary>
+            Called whenever a device or the devices list is updated.
+            Can be called quite frequently
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.OnDevicesUpdated">
+            <summary>
+            Called whenever the devices list is updated.
+            </summary>
+        </member>
+        <member name="E:Acn.Helpers.SlpDeviceManager.DeviceStateChange">
+            <summary>
+            Occurs when a device changes state.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.OnDeviceStateChange(Acn.Helpers.SlpDeviceInformation)">
+            <summary>
+            Called when a device state changes.
+            </summary>
+            <param name="device">The device.</param>
+        </member>
+        <member name="E:Acn.Helpers.SlpDeviceManager.UpdateComplete">
+            <summary>
+            Occurs when a periodic update has completed.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.OnDeviceUpdateComplete">
+            <summary>
+            Called when the device update has completed.
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceManager.pollTimer">
+            <summary>
+            Timer for polling
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceManager.agents">
+            <summary>
+            SlpAgent, to do the discovery
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceManager.devices">
+            <summary>
+            Dictionary of devices, indexed by URL
+            </summary>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceManager.devicesLock">
+            <summary>
+            Lock object for the dictionary
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.CreateAgents">
+            <summary>
+            Creates the SLP user agents.
+            We need one for each network adaptor
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.GetAllIpAddresses">
+            <summary>
+            Gets all the available IP addresses.
+            </summary>
+            <returns>An Enumerable of IP addresses</returns>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.pollTimerTick(System.Object)">
+            <summary>
+            Called when the poll timer ticks
+            </summary>
+            <param name="state">The state.</param>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.RequestPollCallback">
+            <summary>
+            Requests a poll callback after the poll interval.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.StopPollTimer">
+            <summary>
+            Stops the poll timer.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.UpdateDevices">
+            <summary>
+            Updates the devices.
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.agent_ServiceFound(System.Object,Acn.Slp.ServiceFoundEventArgs)">
+            <summary>
+            Handles the ServiceFound event of the agent control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:Acn.Slp.ServiceFoundEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="T:Acn.Helpers.SlpDeviceManager.UserAgentRequest">
+            <summary>
+            Struct to hold a composite key for a alp attribute request.
+            Holds the agent and the request id
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.UserAgentRequest.#ctor(Acn.Slp.SlpUserAgent,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Helpers.SlpDeviceManager.UserAgentRequest"/> struct.
+            </summary>
+            <param name="agent">The agent.</param>
+            <param name="request">The request.</param>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.UserAgentRequest.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.UserAgentRequest.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="F:Acn.Helpers.SlpDeviceManager.attributeRequestLog">
+            <summary>
+            Log of attribute request ids to the devices
+            </summary>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.RequestAttributes(Acn.Helpers.SlpDeviceInformation)">
+            <summary>
+            Requests the attributes for a device.
+            </summary>
+            <param name="device">The device.</param>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.agent_AttributeReply(System.Object,Acn.Slp.AttributeReplyEventArgs)">
+            <summary>
+            Handles the AttributeReply event of the agent.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:Acn.Slp.AttributeReplyEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Acn.Helpers.SlpDeviceManager.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Acn.Packets.Dmp.DmpSetProperty.WriteContent(Acn.IO.AcnBinaryWriter)">
+            <summary>
+            Writes the Property data to the packet stream.
+            </summary>
+            <remarks>
+            This allows customization of the property data.
+            </remarks>
+            <param name="data">The packet data stream.</param>
+        </member>
+        <member name="T:Acn.Packets.sAcn.StreamingAcnDmxPdu">
+            <summary>
+            The DMX data PDU for streaming ACN.
+            </summary>
+        </member>
+        <member name="P:Acn.Packets.sAcn.StreamingAcnDmxPdu.StartCode">
+            <summary>
+            Gets or sets the DMX start code.
+            </summary>
+            <remarks>
+            This allows the start code to be written to the packet seperately to the DMX data. If set
+            to byte.MaxValue then the DMX data is assumed to contain the start code. The default is that
+            start code is part of the data.
+            </remarks>
+        </member>
+        <member name="M:Acn.Packets.sAcn.StreamingAcnDmxPdu.WriteContent(Acn.IO.AcnBinaryWriter)">
+            <summary>
+            Writes the content.
+            </summary>
+        </member>
+        <member name="P:Acn.Packets.sAcn.StreamingAcnFramingPdu.SyncPacketAddress">
+            <summary>
+            Gets or sets the Universe containing the sync packet to sync this DMX frame to.
+            </summary>
+        </member>
+        <member name="F:Acn.ProtocolIds.SDT">
+            <summary>
+            Session Data Transport Protocol
+            </summary>
+        </member>
+        <member name="F:Acn.ProtocolIds.DMP">
+            <summary>
+            Device Management Protocol
+            </summary>
+        </member>
+        <member name="F:Acn.ProtocolIds.sACN">
+            <summary>
+            DMX Data streamed via Multicast
+            </summary>
+        </member>
+        <member name="F:Acn.ProtocolIds.RdmNet">
+            <summary>
+            RDM data carried via streaming ACN.
+            </summary>
+        </member>
+        <member name="F:Acn.ProtocolIds.Null">
+            <summary>
+            Null packet used in RDMNet for Heartbeat.
+            </summary>
+        </member>
+        <member name="M:Acn.RdmNet.Sockets.RdmNetMeshSocket.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:Acn.RdmNet.Sockets.RdmNetDeviceSocket.socket_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)">
+            <summary>
+            Handles the UnhandledException event of the socket control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.UnhandledExceptionEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="P:Acn.RdmNet.Sockets.RdmNetSocket.RdmSourceId">
+            <summary>
+            Gets or sets the RDM Id to use when sending packets.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Broker.ParameterStatus">
+            <summary>
+            The staqtus of a parameter value.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Broker.ParameterStatus.Empty">
+            <summary>
+            The parameter is invalid or has not been set.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Broker.ParameterStatus.Pending">
+            <summary>
+            The parameter has been request but not yet received.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Broker.ParameterStatus.Valid">
+            <summary>
+            The parameter is up to date.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.DMX.DmxBlockAddress">
+            <summary>
+            This parameter provides a mechanism for block addressing the DMX512 start address of sub-devices. 
+            </summary>
+            <remarks>
+            Sub-devices implementations, such as dimmer racks, are often composed of an array of sub-devices (i.e. 
+            dimmer modules) that allow a DMX512 start address to be set for the sub-device. Often it is desirable to 
+            linearly address the sub-devices to consume a contiguous block of DMX512 slots. This message 
+            provides a convenient way of accomplishing this without the need of sending a SET_COMMAND 
+            message to address each sub-device. 
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.DMX.DmxBlockAddress.GetReply.TotalDeviceFootprint">
+            <summary>
+            The Total Sub-Device Footprint shall return the total combined DMX512 footprint (number of consecutive 
+            DMX512 slots required) of all the sub-devices within the device.
+            </summary>
+            <remarks>
+            The footprint of the root device shall not be included within this footprint field. 
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.DMX.DmxBlockAddress.GetReply.DmxAddress">
+            <summary>
+            The first DMX address of all sub-devices.
+            </summary>
+            <remarks>
+            The GET_COMMAND returns the current base DMX512 start address for the array of sub-devices. This 
+            is equivalent to the DMX512 Start Address of the first sub-device if the sub-devices are all linearly 
+            addressed as a contiguous block. If the sub-devices are not currently linearly addressed as a contiguous 
+            block then this field shall be set to 0xFFFF in the response message. 
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.DMX.DmxBlockAddress.Set.DmxAddress">
+            <summary>
+            The first DMX address of all sub-devices.
+            </summary>
+            <remarks>
+            The SET_COMMAND shall set the DMX512 address for the first sub-device to the specified address and 
+            the device shall automatically address each sub-device incrementally accounting for the footprint size of 
+            each sub-device. 
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.DMX.DefaultSlotValue">
+            <summary>
+            This parameter shall be used for requesting the default values for the given DMX512 slot offsets
+            for a device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.DMX.SlotDescription">
+            <summary>
+            This parameter is used for requesting an ASCII text description for DMX512 slot offsets.
+            </summary>
+            <remarks>
+            If the responder does not support the Slot number requested, or cannot provide a text description
+            for a slot number that it does support, the responder shall respond with
+            NR_DATA_OUT_OF_RANGE.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.DMX.SlotInfo">
+            <summary>
+            This parameter is used to retrieve basic information about the functionality of the DMX512 slots
+            used to control the device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.DMX.DmxStartAddress">
+            <summary>
+            This parameter is used to set or get the DMX512 start address.
+            </summary>
+            <remarks>
+            The DMX512 Starting Address can also be retrieved as part of the DEVICE_INFO Parameter
+            Message in Section 10.5.1.
+            
+            The returned data represents the address in the range 1 to 512. A value of zero represents ‘Not
+            Set’. When this message is directed to a Root Device or Sub-Device that has a DMX512
+            Footprint of 0 for that Root or Sub-Device, then the response shall be set to 0xFFFF. Values
+            outside this range are beyond the scope of this standard.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.DMX.DmxStartAddress.GetReply.DmxAddress">
+            <summary>
+            The DMX512 start address for the fixture.
+            </summary>
+            <remarks>
+            This should be in the range of 1 to 512. A value
+            of zero indicates the parameter is not set.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.DMX.DmxStartAddress.Set.DmxAddress">
+            <summary>
+            The DMX512 start address for the fixture.
+            </summary>
+            <remarks>
+            This should be in the range of 1 to 512. A value
+            of zero indicates the parameter is not set.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Configuration.RealTimeClock">
+            <summary>
+            This parameter is used to retrieve or set the real-time clock in a device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Configuration.PanTiltSwap">
+            <summary>
+            This parameter is used to retrieve or change the Pan/Tilt Swap setting.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Configuration.TiltInvert">
+            <summary>
+            This parameter is used to retrieve or change the Tilt Invert setting.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Configuration.PanInvert">
+            <summary>
+            This parameter is used to retrieve or change the Pan Invert setting.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Configuration.DisplayLevel">
+            <summary>
+            This parameter is used to retrieve or change the Display Intensity setting.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Configuration.DisplayInvert">
+            <summary>
+            This parameter is used to retrieve or change the Display Invert setting. Invert is often used to
+            rotate the display image by 180 degrees.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.CapturePreset">
+            <summary>
+            This parameter is used to capture a static scene into a Preset within the responder. The actual
+            data that is captured is beyond the scope of this standard. Upon receipt of this parameter the
+            responder shall capture the scene and store it to the designated preset.
+            </summary>
+            <remarks>
+            Fade and Wait times for building sequences may also be included. Times are in tenths of a
+            second. When timing information is not required the fields shall be set to 0x00.
+            
+            The Up Fade Time is the fade in time for the current scene and the Down Fade Time is the down
+            fade for the previous scene or active look. The Wait Time is the time the device spends holding
+            the current scene before proceeding to play the next scene when the presets are being played
+            back as a sequence using PRESET_PLAYBACK_ALL.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.IdentifyModes">
+            <summary>
+            Different modes for identifying fixtures.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.IdentifyMode">
+            <summary>
+            This parameter is used to get or set the RDM Identify Mode. 
+            </summary>
+            <remarks>
+            This parameter allows devices to have different Identify Modes for use with the IDENTIFY_DEVICE 
+            message. 
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.PresetPlayback">
+            <summary>
+            This parameter is used to recall pre-recorded Presets.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.SelfTestDescription">
+            <summary>
+            This parameter is used to get a descriptive ASCII text label for a given Self Test Operation. The
+            label may be up to 32 characters.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.PowerState">
+            <summary>
+            This parameter is used to retrieve or change the current device Power State. Power State
+            specifies the current operating mode of the device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.ResetDevice">
+            <summary>
+            This parameter is used to instruct the responder to reset itself. This parameter shall also clear the
+            Discovery Mute flag. A cold reset is the equivalent of removing and reapplying power to the
+            device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Control.IdentifyDevice">
+            <summary>
+            This parameter is used for the user to physically identify the device represented by the UID.
+            </summary>
+            <remarks>
+            The responder shall physically identify itself using a visible or audible action. For example,
+            strobing a light or outputting fog.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Discovery.DiscoveryUnMute">
+            <summary>
+            A responder port shall clear its Mute flag when it receives this message containing its UID, or a broadcast address.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Discovery.DiscoveryUnMute.Reply.ControlField">
+            <summary>
+            Some control flags relating to the function of the device.
+            </summary>
+            <remarks>
+            Managed Proxy Flag (Bit 0)
+            The Managed Proxy Flag (Bit 0) shall be set to 1 when the responder is a Proxy device.
+            
+            Sub-Device Flag (Bit 1)
+            The Sub-Device Flag (Bit 1) shall be set to 1 when the responder supports Sub-Devices. See Section 9 for information on Sub-Devices.
+            
+            Boot-Loader Flag (Bit 2)
+            The Boot-Loader Flag (Bit 2) shall only be set to 1 when the device is incapable of normal operation until receiving a firmware upload.
+            It is expected that when in this Boot-Loader mode the device will be capable of very limited RDM communication. The process of uploading firmware is beyond the scope of this document.
+            
+            Proxied Device Flag (Bit 3)
+            The Proxied Device Flag (Bit 3) shall only be set to 1 when a Proxy is responding to Discovery on behalf of another device. This flag indicates that the response has come from a Proxy, rather than the actual device.
+            
+            Reserved bits (Bits 4-15)
+            The Reserved bits (Bits 4-15) are reserved for future implementation and shall be set to 0.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Discovery.DiscoveryUnMute.Reply.BindingId">
+            <summary>
+            The id for the primary port on the device.
+            </summary>
+            <remarks>
+            The Binding UID field shall only be included when the responding device contains multiple responder ports. If the device does 
+            contain multiple ports, then the Binding UID field shall contain the UID for the primary port on the device.
+            
+            This Binding UID field allows the controller to associate multiple responder ports discovered within a single physical device.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Discovery.DiscoveryMute">
+            <summary>
+            A responder port shall set its Mute flag when it receives this message containing its UID, or a broadcast address.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Discovery.DiscoveryMute.Reply.ControlField">
+            <summary>
+            Some control flags relating to the function of the device.
+            </summary>
+            <remarks>
+            Managed Proxy Flag (Bit 0)
+            The Managed Proxy Flag (Bit 0) shall be set to 1 when the responder is a Proxy device.
+            
+            Sub-Device Flag (Bit 1)
+            The Sub-Device Flag (Bit 1) shall be set to 1 when the responder supports Sub-Devices. See Section 9 for information on Sub-Devices.
+            
+            Boot-Loader Flag (Bit 2)
+            The Boot-Loader Flag (Bit 2) shall only be set to 1 when the device is incapable of normal operation until receiving a firmware upload.
+            It is expected that when in this Boot-Loader mode the device will be capable of very limited RDM communication. The process of uploading firmware is beyond the scope of this document.
+            
+            Proxied Device Flag (Bit 3)
+            The Proxied Device Flag (Bit 3) shall only be set to 1 when a Proxy is responding to Discovery on behalf of another device. This flag indicates that the response has come from a Proxy, rather than the actual device.
+            
+            Reserved bits (Bits 4-15)
+            The Reserved bits (Bits 4-15) are reserved for future implementation and shall be set to 0.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Discovery.DiscoveryMute.Reply.BindingId">
+            <summary>
+            The id for the primary port on the device.
+            </summary>
+            <remarks>
+            The Binding UID field shall only be included when the responding device contains multiple responder ports. If the device does 
+            contain multiple ports, then the Binding UID field shall contain the UID for the primary port on the device.
+            
+            This Binding UID field allows the controller to associate multiple responder ports discovered within a single physical device.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Discovery.DiscoveryUniqueBranch">
+            <summary>
+            This message and response are used for the device discovery process.
+            </summary>
+            <remarks>
+            Discovery messages shall always be addressed to Root Devices (Sub-Device = 0).
+            
+            This message shall always be sent to the ALL_DEVICES_ID UID Address, since all devices must process this message.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Discovery.DiscoveryUniqueBranch.Request.LowerBoundId">
+            <summary>
+            The start ID for devices uncluded in this discovery.
+            </summary>
+            <remarks>
+            A responder shall only respond to this message if its UID is greater than or equal to the 
+            Lower Bound UID and less than or equal to the Upper Bound UID included in the message‘s parameter 
+            data, and if it has not been muted through the DISC_MUTE message.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Discovery.DiscoveryUniqueBranch.Request.UpperBoundId">
+            <summary>
+            The end ID for devices uncluded in this discovery.
+            </summary>
+            <remarks>
+            A responder shall only respond to this message if its UID is greater than or equal to the 
+            Lower Bound UID and less than or equal to the Upper Bound UID included in the message‘s parameter 
+            data, and if it has not been muted through the DISC_MUTE message.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.CommsStatus">
+            <summary>
+            Used to collect information that may be useful in analyzing the integrity of the communication system.
+            </summary>
+            <remarks>
+            A responder shall respond with a cumulative total of each error type in the response message defined below.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.CommsStatus.Get">
+            <summary>
+            Requests information about the amount of errors encountered by a device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.CommsStatus.GetReply">
+            <summary>
+            Contains information aabout the amount of errors encountered by a device.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Management.CommsStatus.GetReply.ShortMessage">
+            <summary>
+            The message ended before the Message Length field was received.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Management.CommsStatus.GetReply.LengthMismatch">
+            <summary>
+            The number of slots actually received did not match the Message Length plus
+            the size of the Checksum.
+            </summary>
+            <remarks>
+            This counter shall only be incremented if the Destination UID in the
+            packet matches the Device’s UID.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Management.CommsStatus.GetReply.ChecksumFail">
+            <summary>
+            The message checksum failed.
+            </summary>
+            <remarks>
+            This counter shall only be incremented if the Destination UID in the packet matches the Device’s UID.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.CommsStatus.Set">
+            <summary>
+            Clears all the error counts to zero.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.CommsStatus.SetReply">
+            <summary>
+            Confirmation that the error counts have been cleared to zero.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.ProxiedDeviceCount">
+            <summary>
+            This parameter is used to identify the number of devices being represented by a proxy and
+            whether the list of represented device UIDs has changed.
+            </summary>
+            <remarks>
+            If the List Change flag is set then the controller should request the procied devices.
+            
+            The device will automatically clear the List Change flag after all the proxied UID’s have been
+            retrieved using the ProxiedDevice message.
+            
+            A proxy device shall indicate any change in it's device list through a QueuedMessage.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Management.ProxiedDeviceCount.GetReply.DeviceCount">
+            <summary>
+            The number of proxied devices connected to this proxy and discovered.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Management.ProxiedDeviceCount.GetReply.ListChanged">
+            <summary>
+            Whether the list of proxied devices has changed since the list was last obtained.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Management.ProxiedDevices">
+            <summary>
+            This parameter is used to retrieve the UIDs from a device identified as a proxy during discovery.
+            </summary>
+            <remarks>
+            The response to this parameter contains a packed list of 48-bit UIDs for all devices represented
+            by the proxy.
+            
+            If there are no current devices being proxied then the Parameter Data Length field shall be returned as 0x00.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Management.ProxiedDevices.GetReply.DeviceIds">
+            <summary>
+            A list of device ids for devices discovered by the proxy.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Net.EndpointListChange">
+             <summary>
+             This parameter returns a unique ‘change number’ as a means for controllers to identify if the endpoint list has changed.
+             </summary>
+             <remarks>
+             The Endpoint List Change Number is a monotonically increasing number used for controllers to track if the list of endpoints has changed. 
+             
+             This Change Number shall be incremented each time the set of devices for an endpoint changes. The Change Number is an unsigned 32-bit field. This field shall be initialized to 0 and roll over from 0xFFFFFFFF to 0.
+            
+             Devices shall queue an ENDPOINT_LIST_CHANGE messages whenever the list of devices for an endpoint changes.
+             </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Net.BackgroundDiscovery.GetReply.BackgroundDiscovery">
+            <summary>
+            Controls whether background discovery is enabled within the RDM device.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Net.BackgroundDiscovery.Set.BackgroundDiscovery">
+            <summary>
+            Controls whether background discovery is enabled within the RDM device.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Net.EndpointToUniverse">
+            <summary>
+            This parameter is used to assign an Endpoint on an E1.33 device to a specific E1.31 DMX512 Universe.
+            </summary>
+            <remarks>
+            This message shall only be used on E1.33 networks and shall not be implemented on an E1.20 network as an E1.20 network cannot span beyond the context of a single universe.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Net.EndpointList">
+            <summary>
+            This parameter is used to retrieve a packed list of all endpoints that exist on an E1.33 device, with the exception of the Management Endpoint.
+            </summary>
+            <remarks>
+            The list of Endpoint IDs shall not include the Management Endpoint ID. If the device does not have any Endpoints (other than the Management Endpoint) then it shall return a PDL of 0.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Parameters.ParameterDescription">
+            <summary>
+            This parameter is used to retrieve the definition of some manufacturer-specific PIDs. The purpose 
+            of this parameter is to allow a controller to retrieve enough information about the manufacturerspecific
+            PID to generate Get and Set commands.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.ParameterId">
+            <summary>
+            The manufacturer specific PID requested by the controller. Range 0x8000 to 0xFFDF.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.PDLSize">
+            <summary>
+            PDL Size defines the number used for the PDL field in all GET_RESPONSE and SET messages
+            associated with this PID. In the case of the value of DS_ASCII, the PDL Size represents the
+            maximum length of a variable sized ASCII string.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.DataType">
+            <summary>
+            Data Type defines the size of the data entries in the PD of the message for this PID. For
+            example: unsigned 8-bit character versus signed 16-bit word. Table A-15 enumerates the field
+            codes.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.CommandClass">
+            <summary>
+            Command Class defines whether Get and or Set messages are implemented for the specified
+            PID. Table A-16 enumerates the field codes.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.Type">
+            <summary>
+            Type is an unsigned 8-bit value enumerated by Table A-12. It defines the type of data that is
+            described by the specified PID.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.Unit">
+            <summary>
+            Unit is an unsigned 8-bit value enumerated by Table A-13. It defines the SI (International System
+            of units) unit of the specified PID data.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.Prefix">
+            <summary>
+            Prefix is an unsigned 8-bit value enumerated by Table A-14. It defines the SI Prefix and
+            multiplication factor of the units.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.MinValidValue">
+            <summary>
+            This is a 32-bit field that represents the lowest value that data can reach. The format of the
+            number is defined by DATA TYPE. This field has no meaning for a Data Type of DS_BIT_FIELD
+            or DS_ASCII. For Data Types less than 32-bits, the Most Significant Bytes shall be padded with
+            0x00 out to 32-bits. For example, an 8-bit data value of 0x12 shall be represented in the field as:
+            0x00000012.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.MaxValidValue">
+            <summary>
+            This is a 32-bit field that represents the highest value that data can reach. The format of the
+            number is defined by DATA TYPE. This field has no meaning for a Data Type of DS_BIT_FIELD
+            or DS_ASCII. For Data Types less than 32-bits, the Most Significant Bytes shall be padded with
+            0x00 out to 32-bits. For example, an 8-bit data value of 0x12 shall be represented in the field as:
+            0x00000012.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.DefaultValue">
+            <summary>
+            This is a 32-bit field that represents the default value of that data. This field has no meaning for a
+            Data Type of DS_BIT_FIELD or DS_ASCII. The default value shall be within the minimum and
+            maximum range. For Data Types less than 32-bits, the Most Significant Bytes shall be padded
+            with 0x00 out to 32-bits. For example, an 8-bit data value of 0x12 shall be represented in the field
+            as: 0x00000012.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.ParameterDescription.GetReply.Description">
+            <summary>
+            The Description field is used to describe the function of the specified PID. This text field shall be
+            variable up to 32 characters in length.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Parameters.SupportedParameters">
+            <summary>
+            The SUPPORTED PARAMETERS message is used to retrieve a packed list of supported PIDs.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Parameters.SupportedParameters.GetReply.ParameterIds">
+            <summary>
+            A list of parameter ids for parameters the device supports.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Power.LampOnMode">
+            <summary>
+            This parameter is used to retrieve or change the current Lamp On Mode. Lamp On Mode defines
+            the conditions under which a lamp will be struck.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Power.LampOnMode.LampOnModes">
+            <summary>
+            A list of behaviours for turning the lamp on when the fixture starts.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Packets.Power.LampOnMode.LampOnModes.Off">
+            <summary>
+            Lamp Stays off until directly instructed to Strike.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Packets.Power.LampOnMode.LampOnModes.Dmx">
+            <summary>
+            Lamp Strikes upon receiving a DMX512 signal.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Packets.Power.LampOnMode.LampOnModes.On">
+            <summary>
+            Lamp Strikes automatically at Power-up.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Packets.Power.LampOnMode.LampOnModes.AfterCal">
+            <summary>
+            Lamp Strikes after Calibration or Homing procedure.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Power.LampState">
+            <summary>
+            This parameter is used to retrieve or change the current operating state of the lamp.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Power.LampStrikes">
+            <summary>
+            This parameter is used to retrieve the number of lamp strikes or to set the counter in the device to
+            a specific starting value.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Power.LampHours">
+            <summary>
+            This parameter is used to retrieve the number of lamp hours or to set the counter in the device to
+            a specific starting value.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Power.DeviceHours">
+            <summary>
+            This parameter is used to retrieve or set the number of hours of operation the device has been in
+            use.
+            </summary>
+            <remarks>
+            Some devices may only support the Get for this operation and not allow the
+            device’s hours to be set.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.BootSoftwareVersionId">
+            <summary>
+            This parameter is used to retrieve the unique Boot Software Version ID for the device. The Boot
+            Software Version ID is a 32-bit value determined by the Manufacturer.
+            </summary>
+            <remarks>
+            The 32-bit Boot Software Version ID may use any encoding scheme such that the Controller may
+            identify devices containing the same boot software versions.
+            
+            Any devices from the same manufacturer with differing boot software shall not report back the
+            same Boot Software Version ID.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.BootSoftwareVersionLabel">
+            <summary>
+            This parameter is used to get a descriptive ASCII text label for the Boot Version of the software
+            for Devices that support this functionality. The descriptive text returned by this parameter is
+            intended for display to the user. The label may be up to 32 characters.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.Language">
+            <summary>
+            This parameter is used to change the language of the messages from the device.
+            </summary>
+            <remarks>
+            Supported languages of the device can be determined by the LANGUAGE_CAPABILITIES.
+            
+            The Language Codes are 2 character alpha codes as defined by ISO 639-1. International
+            Standard ISO 639-1, Code for the representation of names of languages - Part 1: Alpha 2 code.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.FactoryDefaults">
+            <summary>
+            This parameter is used to instruct a device to revert to its Factory Default user settings or
+            configuration as determined by the Manufacturer.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.DeviceLabel">
+            <summary>
+            This parameter provides a means of setting a descriptive label for each device. This may be used
+            for identifying a dimmer rack number or specifying the device’s location.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.SoftwareVersionLabel">
+            <summary>
+            This parameter is used to get a descriptive ASCII text label for the device’s operating software
+            version. The descriptive text returned by this parameter is intended for display to the user. The
+            label may be up to 32 characters.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.LanguageCapabilities">
+            <summary>
+            This parameter is used to identify languages that the device supports for using the LANGUAGE
+            parameter.
+            </summary>
+            <remarks>
+            The response contains a packed message of 2 character Language Codes as defined
+            by ISO 639-1. International Standard ISO 639-1, Code for the representation of names of
+            languages - Part 1: Alpha 2 code.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.ManufacturerLabel">
+            <summary>
+            This parameter provides an ASCII text response with the Manufacturer name for the device of up
+            to 32 characters. The Manufacturer name must be consistent between all products manufactured
+            within an ESTA Manufacturer ID.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.DeviceModelDescription">
+            <summary>
+            This parameter provides a text description of up to 32 characters for the device model type.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.ProductDetailIdList">
+            <summary>
+            This parameter shall be used for requesting technology details for a device.
+            </summary>
+            <remarks>
+            Product Detail information may be used by the controller for grouping or other sorting methods
+            when patching or displaying system information. Not all Product Detail definitions may be
+            appropriate for all Product Categories.
+            
+            This standard does not place any restrictions on the use of Product Categories and Product
+            Detail, which are intended to convey general information about the product to the controller.
+            
+            Devices fitted with Residual Current Detectors (RCD) or Ground Fault Interrupt (GFI) devices
+            may declare such functionality using this PID.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.ProductDetailIdList.DetailId">
+            <summary>
+            A list of properties a fixture may contain to be obtained through the
+            ProductDetailIdList message.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Product.DeviceInfo">
+            <summary>
+            This parameter is used to retrieve a variety of information about the device that is normally
+            required by a controller.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Sensors.RecordSensors">
+            <summary>
+            This parameter instructs devices such as dimming racks that monitor load changes to store the
+            current value for monitoring sensor changes.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Sensors.SensorDefinition">
+            <summary>
+            This parameter is used to retrieve the definition of a specific sensor.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Status.SubDeviceStatusReportThreshold">
+            <summary>
+            This parameter is used to set the verbosity of Sub-Device reporting using the Status Type codes.
+            </summary>
+            <remarks>
+            This feature is used to inhibit reports from, for example, a specific dimmer in a rack that is
+            generating repeated errors.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.SubDeviceStatusReportThreshold.GetReply.StatusType">
+            <summary>
+            The status type being inhibited.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.SubDeviceStatusReportThreshold.Set.StatusType">
+            <summary>
+            The status type to inhibit.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Status.ClearStatusId">
+            <summary>
+            This parameter is used to clear the status message queue.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Status.StatusIdDescription">
+            <summary>
+            This parameter is used to request an ASCII text description of a given Status ID. The description
+            may be up to 32 characters.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusIdDescription.Get.StatusId">
+            <summary>
+            The status to request the description for.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusIdDescription.GetReply.Description">
+            <summary>
+            The description for the requested status.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Status.StatusMessage">
+            <summary>
+            This parameter is used to collect Status or Error information from a device.
+            </summary>
+            <remarks>
+            The Status Type of STATUS_NONE shall be used when a controller wants to establish whether a
+            device is present on the network without retrieving any Status Message data from the device.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusMessage.Status.SubDeviceId">
+            <summary>
+            In a system containing sub-devices, the Sub-Device field shall be used to indicate the sub-device
+            to which the status message belongs. If the status message does not reference a particular subdevice
+            the field shall be set to 0x0000, to reference the root device.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusMessage.Status.StatusType">
+            <summary>
+            The Status Type is used to identify the severity of the condition.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusMessage.Status.StatusMessageId">
+            <summary>
+            Status Message ID’s within the range of 0x0000 — 0x7FFF are reserved for publicly defined Status Messages.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusMessage.Status.DataValue1">
+            <summary>
+            Each Status Message supports the return of two separate data values relevant to the context of
+            the specific message. The data value for ESTA public status messages is used to identify a
+            property within the device to which the message corresponds.
+            </summary>
+            <remarks>
+            Status ID’s not using the Data Value fields shall set the fields with 0x0000.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusMessage.Status.DataValue2">
+            <summary>
+            Each Status Message supports the return of two separate data values relevant to the context of
+            the specific message. The data value for ESTA public status messages is used to identify a
+            property within the device to which the message corresponds.
+            </summary>
+            <remarks>
+            Status ID’s not using the Data Value fields shall set the fields with 0x0000.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.StatusMessage.Get.StatusType">
+            <summary>
+            Requests the retransmission of the last sent Status Message or Queued Message.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Status.QueuedMessage">
+            <summary>
+            Obtains a message from the responders message queue.
+            </summary>
+            <remarks>
+            The Message Count field of all response messages defines the number of
+            messages that are queued in the responder. Each <see cref="T:Acn.Rdm.Packets.Status.QueuedMessage"/> response shall be
+            composed of a single message response.
+            
+            A responder with multiple messages queued shall first respond with the most urgent message.
+            The message count of the responder shall be decremented prior to sending the response.
+            
+            A responder with no messages queued shall respond to a <see cref="T:Acn.Rdm.Packets.Status.QueuedMessage"/> message with a
+            <see cref="T:Acn.Rdm.Packets.Status.StatusMessage"/> response. A StatusMessage response with a PDL of 0x00 does not
+            imply that the responder supports the <see cref="T:Acn.Rdm.Packets.Status.StatusMessage"/> PID.
+            </remarks>
+        </member>
+        <member name="T:Acn.Rdm.Packets.Status.QueuedMessage.Get">
+            <summary>
+            Requests that the device sends a queued message.
+            </summary>
+            <remarks>
+            The response to this message is the queued message.
+            </remarks>
+        </member>
+        <member name="P:Acn.Rdm.Packets.Status.QueuedMessage.Get.StatusType">
+            <summary>
+            Determines what queued message the device should send.
+            </summary>
+        </member>
+        <member name="T:Acn.Rdm.Routing.DiscoveryType">
+            <summary>
+            The type of discovery to perform.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Routing.DiscoveryType.GatewayDiscovery">
+            <summary>
+            Searches the local network for RDM gateways.
+            </summary>
+        </member>
+        <member name="F:Acn.Rdm.Routing.DiscoveryType.DeviceDiscovery">
+            <summary>
+            Performs an RDM discovery for devices. This will request all the known gateways to start a full discovery.
+            </summary>
+        </member>
+        <member name="M:Acn.Rdm.Routing.IRdmTransport.ResolveEndpointToUniverse(Acn.Sockets.RdmEndPoint)">
+            <summary>
+            Gets the universe index for a specific endpoint address.
+            </summary>
+            <remarks>
+            The transport may wish to resolve this to an internal addressing scheme.
+            </remarks>
+            <param name="address">The device address.</param>
+            <returns>The DMX universe that this address resolves to.</returns>
+        </member>
+        <member name="M:Acn.Rdm.Routing.RdmRouter.GetTransportForDevice(Acn.Rdm.UId)">
+            <summary>
+            Gets the current transport in use for a specific device.
+            </summary>
+            <param name="targetId">The id of the device to return the transport for.</param>
+            <returns>The RDM transport for the device.</returns>
+            <exception cref="T:System.InvalidOperationException">The target id is a broadcast id or another invalid id.</exception>
+        </member>
+        <member name="M:Acn.Rdm.Routing.RdmRouter.GetBindingForDevice(Acn.Rdm.UId)">
+            <summary>
+            Gets the transport binding for a specific device.
+            </summary>
+            <remarks>
+            Each device will have a transport binding which determines the transport used to comunicate with that device.
+            </remarks>
+            <param name="targetId">The ID of the device we wish to get the binding for.</param>
+            <returns>The transport binding for the specified device.</returns>
+        </member>
+        <member name="M:Acn.Rdm.Routing.RdmRouter.ResolveEndpointToUniverse(Acn.Sockets.RdmEndPoint)">
+            <summary>
+            Gets the universe index for a specific endpoint address.
+            </summary>
+            <param name="address">The device address.</param>
+            <returns>
+            The DMX universe that this address resolves to.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">No transport exists for this device address.</exception>
+            <remarks>
+            The transport may wish to resolve this to an internal addressing scheme.
+            </remarks>
+        </member>
+        <member name="M:Acn.Rdm.UId.#ctor(System.UInt16,System.Byte,System.UInt32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Rdm.UId"/> class. Creates a device ID from the combination
+            of the specified <paramref name="productId"/> and <paramref name="deviceCode"/>.
+            </summary>
+            <param name="manufacturerId">The manufacturer identifier.</param>
+            <param name="productId">The product identifier, stored in the high byte of the <see cref="P:Acn.Rdm.UId.DeviceId"/>.</param>
+            <param name="deviceCode">The device code, stored in the other 3 bytes of the <see cref="P:Acn.Rdm.UId.DeviceId"/>.</param>
+        </member>
+        <member name="P:Acn.Rdm.UId.MinValue">
+            <summary>
+            Gets the minimum possible UId value.
+            </summary>
+        </member>
+        <member name="P:Acn.Rdm.UId.MaxValue">
+            <summary>
+            Gets the maximum possible UId value.
+            </summary>
+        </member>
+        <member name="M:Acn.Rdm.UId.NewUId(System.UInt16,System.Byte)">
+            <summary>
+            Generates a new random <see cref="T:Acn.Rdm.UId"/> with the specified <paramref name="manufacturerId"/>. The high
+            byte of <see cref="P:Acn.Rdm.UId.DeviceId"/> will be the <paramref name="productId"/>, the other 3 bytes will be a
+            randomly generated number.
+            </summary>
+            <param name="manufacturerId">The manufacturer identifier.</param>
+            <param name="productId">The product identifier.</param>
+            <returns>The new <see cref="T:Acn.Rdm.UId"/>.</returns>
+        </member>
+        <member name="T:Acn.Slp.AttributeReplyEventArgs">
+            <summary>
+            Event args for an attribute reply event.
+            </summary>
+        </member>
+        <member name="P:Acn.Slp.AttributeReplyEventArgs.Attributes">
+            <summary>
+            Gets or sets the attributes returned.
+            </summary>
+            <value>
+            The attributes.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.AttributeReplyEventArgs.Address">
+            <summary>
+            Gets or sets the address of the service that has provided the attribtues.
+            </summary>
+            <value>
+            The address.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.AttributeReplyEventArgs.RequestId">
+            <summary>
+            Gets or sets the request id.
+            (Matches the one returned by RequestAttributes)
+            </summary>
+            <value>
+            The request id.
+            </value>
+        </member>
+        <member name="M:Acn.Slp.IO.SlpBinaryWriter.WriteNetworkString(System.String)">
+            <summary>
+            Writes a string to the network.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Acn.Slp.IO.SlpBinaryWriter.Write(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Writes a set of strings as a comma seperated list.
+            </summary>
+            <param name="values">The values.</param>
+        </member>
+        <member name="M:Acn.Slp.IO.SlpBinaryReader.ReadNetworkStringList">
+            <summary>
+            Reads a comma seperated string list from the network.
+            </summary>
+            <returns>An Enumerable of strings (commas are stripped out)</returns>
+        </member>
+        <member name="T:Acn.Slp.Packets.SlpRequestPacket">
+            <summary>
+            Base class for request packets
+            </summary>
+        </member>
+        <member name="P:Acn.Slp.Packets.SlpRequestPacket.PRList">
+            <summary>
+            Gets or sets the Previous Responder List.
+            </summary>
+            <value>
+            The PR list.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.Packets.SlpRequestPacket.ScopeList">
+            <summary>
+            Gets or sets the scope list.
+            </summary>
+            <value>
+            The scope list.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.Packets.SlpRequestPacket.SlpSpi">
+            <summary>
+            Gets or sets the SLP Security Parameter Index.
+            Used for authentication - current unsupported
+            </summary>
+            <value>
+            The SLP spi.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.ServiceFoundEventArgs.RequestId">
+            <summary>
+            Gets or sets the request id.
+            (Matches the one returned by Find)
+            </summary>
+            <value>
+            The request id.
+            </value>
+        </member>
+        <member name="F:Acn.Slp.SlpServiceAgent.urlMatch">
+            <summary>
+            Regex to match a service Url
+            </summary>
+            <remarks>
+            The matching groups are as follows
+              0 - Everything
+              1 - Abstract service spec including service:abstract:
+              2 - Abstract service type including naming authority if supplied
+              3 - Full Url including concrete service type
+              4 - No use
+              5 - Concrete service type
+              6 - No use
+              7 - Address part of the url
+            </remarks>
+        </member>
+        <member name="P:Acn.Slp.SlpServiceAgent.ServiceType">
+            <summary>
+            Gets the type of the service.
+            This is the full service type id including the 'service' prefix
+            </summary>
+            <value>
+            The type of the service.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.SlpServiceAgent.ServiceAbstractType">
+            <summary>
+            Gets or sets the abstract type of the service.
+            This is a generic service type such as printer, for non standard types
+            it may include a naming authority eg e133.esta
+            A service may have an abstract or concrete type or both
+            </summary>
+            <value>
+            The type of the service abstract.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.SlpServiceAgent.ServiceConcreteType">
+            <summary>
+            Gets or sets the concrete type of the service.
+            This is a specific protocol eg http or ftp
+            A service may have an abstract or concrete type or both
+            </summary>
+            <value>
+            The concrete type of the service.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.SlpServiceAgent.ServiceAddress">
+            <summary>
+            Gets or sets the address of the service.
+            This is the hostname or ip and the path the service eg
+            not.wco.ftp.com/cgi-bin/pub-prn
+            </summary>
+            <value>
+            The address.
+            </value>
+        </member>
+        <member name="P:Acn.Slp.SlpServiceAgent.ServiceUrl">
+            <summary>
+            Gets or sets the full service URL including all the parts.
+            A URL must include an address and a concrete or an abstract type.
+            </summary>
+            <remarks>
+            Some examples of legal URLs
+            
+            http://www.ietf.org/rfc/
+            service:web:http://www.ietf.org/rfc/
+            service:e133.esta://2.4.9.6/0xaabb11223344
+            
+            </remarks>
+            <value>
+            The service URL.
+            </value>
+        </member>
+        <member name="M:Acn.Slp.SlpServiceAgent.JoinAttributeString(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Joins an attribute dictionary to a string of (a=b) tupples
+            </summary>
+            <param name="attributes">The attributes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acn.Slp.SlpServiceAgent.IsReplyRequired(Acn.Slp.Packets.ServiceRequestPacket)">
+            <summary>
+            Determines whether a reply is required for the specified request.
+            We should only respond to requests within the scope of the service
+            </summary>
+            <param name="request">The request.</param>
+            <returns>
+              <c>true</c> if reply is required; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Acn.Slp.SlpServiceAgent.IsReplyRequired(Acn.Slp.Packets.AttributeRequestPacket)">
+            <summary>
+            Determines whether a reply is required for the specified request.
+            We should only respond to requests within the scope of the 
+            service
+            </summary>
+            <param name="request">The request.</param>
+            <returns>
+              <c>true</c> if reply is required; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Acn.Slp.SlpServiceAgent.CheckUrlMatch(System.String,System.String,System.String,System.String)">
+            <summary>
+            Checks for a URL match.
+            </summary>
+            <param name="requestUrl">The request URL (eg service:printer:lpr://10.0.0.5/queue).</param>
+            <param name="serviceAbstractType">The abstract service type (eg printer).</param>
+            <param name="serviceConcreteType">Type of the service concrete (eg lpr).</param>
+            <param name="serviceAddress">The service URL (eg 10.0.0.5/hp1010).</param>
+            <returns>True if the request matches the abstract type, the concrete type or the full url</returns>
+        </member>
+        <member name="M:Acn.Slp.SlpServiceAgent.IsReplyRequired(Acn.Slp.Packets.SlpRequestPacket)">
+            <summary>
+            Determines whether a reply is required for the specified request.
+            We should only respond to requests within the scope of the service
+            </summary>
+            <param name="request">The request.</param>
+            <returns>
+              <c>true</c> if reply is required; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.RequestAttributes(System.String)">
+            <summary>
+            Sends an attribute request.
+            This can either be to a specific URL or a general service type.
+            Results will be returned via the AttributeReply event
+            </summary>
+            <param name="url">The URL.</param>
+            <returns>
+            An id for this request which can be used to match it to the reply
+            </returns>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.RequestAttributes(System.Net.IPEndPoint,System.String)">
+            <summary>
+            Sends an attribute request.
+            This can either be to a specific URL or a general service type.
+            Results will be returned via the AttributeReply event
+            This version targets a specific IP which can cut down the noise on replies.
+            </summary>
+            <param name="url">The URL.</param>
+            <returns>
+            An id for this request which can be used to match it to the reply
+            </returns>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.SendRequest(System.String,System.String)">
+            <summary>
+            Sends a service request.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="scope">The scope.</param>
+            <returns>The Id of the request</returns>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.SendAttributeRequest(System.String,System.String)">
+            <summary>
+            Sends an attribute request.
+            This can either be to a specific URL or a general service URL.
+            Results will be returned via the AttributeReply event
+            </summary>
+            <param name="scope">The scope.</param>
+            <param name="url">The URL.</param>
+            <returns>
+            An id for this request which can be used to mtch it to the reply
+            </returns>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.SendAttributeRequest(System.Net.IPEndPoint,System.String,System.String)">
+            <summary>
+            Sends an attribute request.
+            This can either be to a specific URL or a general service URL.
+            Results will be returned via the AttributeReply event
+            </summary>
+            <param name="target">The target endpoint.</param>
+            <param name="scope">The scope.</param>
+            <param name="url">The URL.</param>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.PrepareAttributeRequest(System.String,System.String)">
+            <summary>
+            Prepares the attribute request object.
+            </summary>
+            <param name="scope">The scope.</param>
+            <param name="url">The URL.</param>
+            <returns></returns>
+        </member>
+        <member name="E:Acn.Slp.SlpUserAgent.AttributeReply">
+            <summary>
+            Occurs when a reply to an attribute request is received.
+            </summary>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.ProcessAttributeReply(Acn.Slp.Packets.AttributeReplyPacket,System.Net.IPEndPoint)">
+            <summary>
+            Processes the attribute reply.
+            </summary>
+            <param name="attributeReply">The attribute reply packet.</param>
+            <param name="ipAddress">The ip address the reply originated from.</param>
+        </member>
+        <member name="M:Acn.Slp.SlpUserAgent.SplitAttributeList(System.String)">
+            <summary>
+            Splits a string attribute list into a dictionary of key value pairs.
+            Only supports (key=value) lists not tags.
+            </summary>
+            <param name="attributeList">The attribute list.</param>
+            <returns>A dictionary of string pairs</returns>
+        </member>
+        <member name="T:Acn.Sntp.LeapIndicator">
+            <summary>
+            Leap indicator field values
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.LeapIndicator.NoWarning">
+            <summary>
+            0 - No warning
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.LeapIndicator.LastMinute61">
+            <summary>
+            1 - Last minute has 61 seconds
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.LeapIndicator.LastMinute59">
+            <summary>
+             2 - Last minute has 59 seconds
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.LeapIndicator.Alarm">
+            <summary>
+            3 - Alarm condition (clock not synchronized)
+            </summary>
+        </member>
+        <member name="T:Acn.Sntp.NtpMode">
+            <summary>
+            Mode field values
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpMode.SymmetricActive">
+            <summary>
+             1 - Symmetric active
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpMode.SymmetricPassive">
+            <summary>
+             2 - Symmetric pasive
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpMode.Client">
+            <summary>
+             3 - Client
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpMode.Server">
+            <summary>
+            4 - Server
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpMode.Broadcast">
+            <summary>
+            5 - Broadcast
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpMode.Unknown">
+            <summary>
+            0, 6, 7 - Reserved
+            </summary>
+        </member>
+        <member name="T:Acn.Sntp.NtpStratum">
+            <summary>
+             Stratum field values
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpStratum.Unspecified">
+            <summary>
+            0 - unspecified or unavailable
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpStratum.PrimaryReference">
+            <summary>
+            1 - primary reference (e.g. radio-clock)
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpStratum.SecondaryReference">
+            <summary>
+            2-15 - secondary reference (via NTP or SNTP)
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.NtpStratum.Reserved">
+            <summary>
+            16-255 - reserved
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.LeapIndicator">
+            <summary>
+            Gets the leap indicator.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.VersionNumber">
+            <summary>
+            Gets the version number.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.Mode">
+            <summary>
+            Gets the mode.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.Stratum">
+            <summary>
+            Gets the stratum.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.PollInterval">
+            <summary>
+            Gets the poll interval.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.Precision">
+            <summary>
+            Gets the precision.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.RootDelay">
+            <summary>
+            Gets the root delay.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.RootDispersion">
+            <summary>
+            Gets the root dispersion.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.ReferenceID">
+            <summary>
+            Gets the reference Identifier.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.ReferenceTimestamp">
+            <summary>
+            Gets the reference timestamp.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.OriginateTimestamp">
+            <summary>
+            Gets the originate timestamp.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.ReceiveTimestamp">
+            <summary>
+            Gets the receive timestamp.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.TransmitTimestamp">
+            <summary>
+            Gets or sets the transmit timestamp.
+            </summary>
+            <value>
+            The transmit timestamp.
+            </value>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.RoundTripDelay">
+            <summary>
+            Gets the round trip delay.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.LocalClockOffset">
+            <summary>
+            Gets the local clock offset.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.NtpData.NewTime">
+            <summary>
+            Gets the new time.
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.ComputeDate(System.UInt64)">
+            <summary>
+            Compute date, given the number of milliseconds since January 1, 1900
+            </summary>
+            <param name="milliseconds">The milliseconds.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.GetMilliSeconds(System.Byte)">
+            <summary>
+            Compute the number of milliseconds, given the offset of a 8-byte array
+            </summary>
+            <param name="offset">The offset.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.SetDate(System.Byte,System.DateTime)">
+            <summary>
+            Compute the 8-byte array, given the date
+            </summary>
+            <param name="offset">The offset.</param>
+            <param name="date">The date.</param>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.IsResponseValid">
+            <summary>
+            Check if the response from server is valid
+            </summary>
+            <returns>
+              <c>true</c> if is response valid; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.Initialize(System.Byte,Acn.Sntp.NtpMode,System.DateTime)">
+            <summary>
+            Initializes packet for a request
+            </summary>
+            <param name="versionNumber">The version number.</param>
+            <param name="mode">The mode.</param>
+            <param name="transmitTimestamp">The transmit timestamp.</param>
+        </member>
+        <member name="M:Acn.Sntp.NtpData.CopyTransmitToOriginate">
+            <summary>
+            Copies the transmit timestamp to the originate timestamp.
+            </summary>
+        </member>
+        <member name="T:Acn.Sntp.SntpClient">
+            <summary>
+            SntpClient is a class that allows easy connection to a remote host to get the current
+            time.
+            The implementation of the protocol is based on the RFC 2030.
+            </summary>
+            <remarks>
+            Public class members:
+            LeapIndicator - Warns of an impending leap second to be inserted/deleted in the last
+            minute of the current day. (See the LeapIndicator enum)
+            VersionNumber - Version number of the protocol (3 or 4).
+            Mode - Returns mode. (See the Mode enum)
+            Stratum - Stratum of the clock. (See the _Stratum enum)
+            PollInterval - Maximum interval between successive messages.
+            Precision - Precision of the clock.
+            RootDelay - Round trip time to the primary reference source.
+            RootDispersion - Nominal error relative to the primary reference source.
+            ReferenceID - Reference identifier (either a 4 character string or an IP address).
+            ReferenceTimestamp - The time at which the clock was last set or corrected.
+            OriginateTimestamp - The time at which the request departed the client for the server.
+            ReceiveTimestamp - The time at which the request arrived at the server.
+            Transmit Timestamp - The time at which the reply departed the server for client.
+            RoundTripDelay - The time between the departure of request and arrival of reply.
+            LocalClockOffset - The offset of the local clock relative to the primary reference
+            source.
+            Initialize - Sets up data structure and prepares for connection.
+            Connect - Connects to the time server and populates the data structure.
+            It can also set the system time.
+            IsResponseValid - Returns true if received data is valid and if comes from
+            a NTP-compliant time server.
+            ToString - Returns a string representation of the object.
+            -----------------------------------------------------------------------------
+            Structure of the standard NTP header (as described in RFC 2030)
+            1                   2                   3
+             0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |LI | VN  |Mode |    Stratum    |     Poll      |   Precision   |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                          Root Delay                           |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                       Root Dispersion                         |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                     Reference Identifier                      |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                                                               |
+            |                   Reference Timestamp (64)                    |
+            |                                                               |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                                                               |
+            |                   Originate Timestamp (64)                    |
+            |                                                               |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                                                               |
+            |                    Receive Timestamp (64)                     |
+            |                                                               |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                                                               |
+            |                    Transmit Timestamp (64)                    |
+            |                                                               |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                 Key Identifier (optional) (32)                |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                                                               |
+            |                                                               |
+            |                 Message Digest (optional) (128)               |
+            |                                                               |
+            |                                                               |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            -----------------------------------------------------------------------------
+            NTP Timestamp Format (as described in RFC 2030)
+            1                   2                   3
+            0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                           Seconds                             |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |                  Seconds Fraction (0-padded)                  |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            </remarks>
+        </member>
+        <member name="M:Acn.Sntp.SntpClient.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="!:NTPClient"/> class.
+            </summary>
+            <param name="host">The host.</param>
+        </member>
+        <member name="P:Acn.Sntp.SntpClient.Port">
+            <summary>
+            Gets or sets the port to contact the server on.
+            </summary>
+            <value>
+            The port.
+            </value>
+        </member>
+        <member name="M:Acn.Sntp.SntpClient.GetTime(System.Int32,System.Boolean)">
+            <summary>
+            Connect to the time server and update system time
+            </summary>
+            <param name="roundTrips">The number of round trips.</param>
+            <param name="UpdateSystemTime">if set to <c>true</c> update the system time.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acn.Sntp.SntpClient.GetTimeDelta(System.Net.IPEndPoint,System.Net.Sockets.UdpClient)">
+            <summary>
+            Gets the time delta from an NTP server.
+            Does one round trip.
+            </summary>
+            <param name="host">The host.</param>
+            <param name="timeSocket">The time socket.</param>
+            <returns>The returned time packet</returns>
+        </member>
+        <member name="M:Acn.Sntp.SntpClient.SetTime(System.DateTime)">
+            <summary>
+            Set system time according to transmit timestamp
+            </summary>
+            <param name="timeStamp">The time stamp.</param>
+        </member>
+        <member name="T:Acn.Sntp.SntpServer">
+            <summary>
+            The SntpServer provides simple response to NTP time requests
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Sntp.SntpServer"/> class.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.SntpServer.NetworkAdapter">
+            <summary>
+            Gets or sets the address of the network adapter to listen on.
+            </summary>
+            <value>
+            The network adapter.
+            </value>
+        </member>
+        <member name="P:Acn.Sntp.SntpServer.Port">
+            <summary>
+            Gets or sets the port.
+            </summary>
+            <value>
+            The port.
+            </value>
+        </member>
+        <member name="P:Acn.Sntp.SntpServer.Active">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Acn.Sntp.SntpServer"/> is active.
+            </summary>
+            <value>
+              <c>true</c> if active; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.Open">
+            <summary>
+            Opens a new connection
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.Close">
+            <summary>
+            Closes the connection
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.IsOpen">
+            <summary>
+            Determines whether this instance is open.
+            </summary>
+            <returns>
+              <c>true</c> if this instance is open; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.socket_NewPacket(System.Object,Acn.Sntp.Sockets.NewPacketEventArgs)">
+            <summary>
+            Handles the NewPacket event of the socket.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:Acn.Sntp.Sockets.NewPacketEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.ProcessPacket(Acn.Sntp.Sockets.NewPacketEventArgs)">
+            <summary>
+            Processes the packet and returns a response.
+            </summary>
+            <param name="packetInfo">The <see cref="T:Acn.Sntp.Sockets.NewPacketEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Acn.Sntp.SntpServer.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Acn.Sntp.Sockets.NewPacketEventArgs">
+            <summary>
+            Data from a new incomming NTP request
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.NewPacketEventArgs.#ctor(Acn.Sntp.NtpData)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Sntp.Sockets.NewPacketEventArgs"/> class.
+            </summary>
+            <param name="packet">The packet.</param>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.NewPacketEventArgs.SourceEndPoint">
+            <summary>
+            Gets or sets the source end point.
+            </summary>
+            <value>
+            The source end point.
+            </value>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.NewPacketEventArgs.Packet">
+            <summary>
+            Gets the packet.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.NewPacketEventArgs.ReceivedTime">
+            <summary>
+            Gets or sets the received time.
+            </summary>
+            <value>
+            The received time.
+            </value>
+        </member>
+        <member name="T:Acn.Sntp.Sockets.SntpSocket">
+            <summary>
+            Specialised socket to support sned and recive of Sntp Packets
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Sntp.Sockets.SntpSocket"/> class.
+            </summary>
+        </member>
+        <member name="F:Acn.Sntp.Sockets.SntpSocket.DefaultPort">
+            <summary>
+            The published default SNTP/NTP port
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.SntpSocket.Port">
+            <summary>
+            Gets or sets the port to listen on.
+            </summary>
+            <value>
+            The port.
+            </value>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.SntpSocket.MulticastGroup">
+            <summary>
+            Gets the multicast group for NTP/SNTP.
+            </summary>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.SntpSocket.PortOpen">
+            <summary>
+            Gets or sets a value indicating whether the port is open.
+            </summary>
+            <value>
+              <c>true</c> if port open; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Acn.Sntp.Sockets.SntpSocket.LastPacket">
+            <summary>
+            Gets or sets the last packet receive time.
+            (This is a generall socket time not NTP related)
+            </summary>
+            <value>
+            The last packet.
+            </value>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.Open(System.Net.IPAddress)">
+            <summary>
+            Opens the specified ip address.
+            </summary>
+            <param name="ipAddress">The ip address.</param>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.Open(System.Net.IPEndPoint)">
+            <summary>
+            Opens the specified local end point.
+            </summary>
+            <param name="localEndPoint">The local end point.</param>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.StartReceive">
+            <summary>
+            Starts the receive.
+            </summary>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.OnReceive(System.IAsyncResult)">
+            <summary>
+            Called when a packet is received.
+            </summary>
+            <param name="state">The state.</param>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.OnUnhandledException(System.Exception)">
+            <summary>
+            Called when an unhandled exception occurs.
+            </summary>
+            <param name="ex">The ex.</param>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.Send(Acn.Sntp.NtpData)">
+            <summary>
+            Sends the specified packet.
+            </summary>
+            <param name="packet">The packet.</param>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.Send(System.Net.IPEndPoint,Acn.Sntp.NtpData)">
+            <summary>
+            Sends the specified packet to a target.
+            </summary>
+            <param name="target">The target.</param>
+            <param name="packet">The packet.</param>
+        </member>
+        <member name="M:Acn.Sntp.Sockets.SntpSocket.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:System.Net.Sockets.Socket"/>, and optionally disposes of the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to releases only unmanaged resources.</param>
+        </member>
+        <member name="F:Acn.Sockets.AcnSocket.SIO_UDP_CONNRESET">
+            <summary>
+            Winsock ioctl code which will disable ICMP errors from being propagated to a UDP socket.
+            This can occur if a UDP packet is sent to a valid destination but there is no socket
+            registered to listen on the given port.
+            </summary>
+        </member>
+        <member name="M:Acn.Sockets.AcnSocket.Close">
+            <summary>
+            Closes the <see cref="T:System.Net.Sockets.Socket" /> connection and releases all associated resources.
+            </summary>
+            <PermissionSet>
+              <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+              <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+              <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+            </PermissionSet>
+        </member>
+        <member name="M:Acn.Sockets.AcnSocket.Close(System.Int32)">
+            <summary>
+            Closes the <see cref="T:System.Net.Sockets.Socket" /> connection and releases all associated resources with a specified timeout to allow queued data to be sent.
+            </summary>
+            <param name="timeout">Wait up to <paramref name="timeout" /> seconds to send any remaining data, then close the socket.</param>
+            <PermissionSet>
+              <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+              <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+              <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+            </PermissionSet>
+        </member>
+        <member name="M:Acn.Sockets.AcnSocket.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:System.Net.Sockets.Socket" />, and optionally disposes of the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to releases only unmanaged resources.</param>
+        </member>
+        <member name="T:Acn.Sockets.RdmReliableSocket">
+            <summary>
+            This RDM socket provides a reliable means of transporting RDM packets over an unreliable network. It
+            will wrap an unreliable RDM socket.
+            </summary>
+            <remarks>
+            Ensures that a transaction is completed by re-requesting packets for which no response has been received.
+            </remarks>
+        </member>
+        <member name="M:Acn.Sockets.RdmReliableSocket.Retry(System.Object)">
+            <summary>
+            Processes the transaction queue and determines what transactions can be sent to their destination.
+            </summary>
+            <remarks>
+            This function ensures that only a single transaction is sent to each DMX port every 20ms. Any more 
+            transactions per port and the device might become flooded.
+            </remarks>
+            <param name="state">Thread State</param>
+        </member>
+        <member name="M:Acn.Sockets.StreamingAcnSocket.#ctor(System.Guid,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Sockets.StreamingAcnSocket"/> which will multicast using standardized ports and addresses.
+            </summary>
+            <param name="sourceId">A <see cref="T:System.Guid"/> representing this source.</param>
+            <param name="sourceName">A descriptive name for this endpoint.</param>
+        </member>
+        <member name="M:Acn.Sockets.StreamingAcnSocket.#ctor(System.Guid,System.String,System.Net.IPAddress)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Sockets.StreamingAcnSocket"/> which will unicast to a specified <see cref="T:System.Net.IPAddress"/> on the standard ACN-SDT multicast port (5568).
+            </summary>
+            <param name="sourceId">A <see cref="T:System.Guid"/> representing this source.</param>
+            <param name="sourceName">A descriptive name for this endpoint.</param>
+            <param name="unicastDestination">The <see cref="T:System.Net.IPAddress"/> of a remote endpoint to which packets should be directly sent.</param>
+        </member>
+        <member name="M:Acn.Sockets.StreamingAcnSocket.#ctor(System.Guid,System.String,System.Net.IPEndPoint)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.Sockets.StreamingAcnSocket"/> which will unicast to a specified <see cref="T:System.Net.IPEndPoint"/>. The port may be the standard ACN-SDT multicast port, or any valid port number.
+            </summary>
+            <param name="sourceId">A <see cref="T:System.Guid"/> representing this source.</param>
+            <param name="sourceName">A descriptive name for this endpoint.</param>
+            <param name="unicastDestination">The <see cref="!:IPEndpoint"/> to which packets should be directly sent.</param>
+        </member>
+        <member name="P:Acn.Sockets.StreamingAcnSocket.DmxUniverses">
+            <summary>
+            Gets a list of dmx universes this socket has joined to.
+            </summary>
+        </member>
+        <member name="M:Acn.Sockets.StreamingAcnSocket.SendDmx(System.Int32,System.Byte[],System.Byte)">
+            <summary>
+            Sends a DMX frame over streaming ACN.
+            </summary>
+            <remarks>
+            The dmxData must include the start code. Please use the overload with startCode specified
+            if the data does not include the start code.
+            </remarks>
+            <param name="universe">The streaming ACN universe between 1 and 3000.</param>
+            <param name="dmxData">The DMX data including the start code.</param>
+            <param name="priority">The sACN priority for the DMX data.</param>
+        </member>
+        <member name="M:Acn.Sockets.StreamingAcnSocket.SendDmx(System.Int32,System.Byte,System.Byte[],System.Byte)">
+            <summary>
+            Sends a DMX frame over streaming ACN.
+            </summary>
+            <param name="universe">The streaming ACN universe between 1 and 3000.</param>
+            <param name="startCode"></param>
+            <param name="dmxData">The DMX data including the start code.</param>
+            <param name="priority">The sACN priority for the DMX data.</param>
+        </member>
+        <member name="T:Acn.TestTools.AcnListener">
+            <summary>
+            Testing class used to listen in on ACN streams and work out if the right thing is sending.
+            </summary>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.#ctor(System.Collections.Generic.IEnumerable{System.Int32},System.Net.IPAddress)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Acn.TestTools.AcnListener" /> class.
+            </summary>
+            <param name="universes">The universes to listen to.</param>
+            <param name="ip">The ip.</param>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.#ctor">
+            <summary>
+            Create without initalisation a new instance of the <see cref="T:Acn.TestTools.AcnListener"/> class.
+            </summary>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Initialise(System.Collections.Generic.IEnumerable{System.Int32},System.Net.IPAddress)">
+            <summary>
+            Initialises the specified universes.
+            </summary>
+            <param name="universes">The universes.</param>
+            <param name="ip">The ip.</param>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Get(System.Guid,System.Int32,System.Int32)">
+            <summary>
+            Gets the last value received for the source, universe and channel
+            </summary>
+            <param name="source">The source.</param>
+            <param name="universe">The universe.</param>
+            <param name="channel">The channel.</param>
+            <returns>The value</returns>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Contains(System.Guid)">
+            <summary>
+            Determines whether we have heard from the specifed source since the last Clear (or Listen)
+            </summary>
+            <param name="source">The source.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Listen">
+            <summary>
+            Listen to incomming ACN for 2 seconds
+            </summary>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Listen(System.TimeSpan)">
+            <summary>
+            Listens to incomming ACN for specified time.
+            </summary>
+            <param name="time">The time.</param>
+        </member>
+        <member name="M:Acn.TestTools.AcnListener.Clear">
+            <summary>
+            Clears this instance.
+            </summary>
+        </member>
+        <member name="P:Acn.TestTools.AcnListener.SyncRoot">
+            <summary>
+            Gets an object to lock out updates while you check
+            </summary>
+            <value>
+            The synchronize root.
+            </value>
+        </member>
+        <member name="T:Acn.TFtp.TFTPServer">
+            <summary>
+            Simple read-only TFTP Server	
+            </summary>		
+        </member>
+        <member name="P:Acn.TFtp.TFTPServer.GetFileHandler">
+            <summary>
+            Delegate to handle creation of file stream
+            </summary>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.Start">
+            <summary>
+            Start server
+            </summary>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.Stop">
+            <summary>
+            Stop server
+            </summary>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.Listener">
+            <summary>
+            Main listener thread loop
+            </summary>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.DoAck(System.Byte[],System.Net.IPEndPoint)">
+            <summary>
+            Handle ACK response and send next block.
+            </summary>
+            <param name="data">data from packet</param>
+            <param name="endpoint">client</param>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.DoError(System.Byte[],System.Net.IPEndPoint)">
+            <summary>
+            Parse an error response
+            </summary>
+            <param name="data">data from packet</param>
+            <param name="endpoint">client</param>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.DoReadRequest(System.Byte[],System.Net.IPEndPoint)">
+            <summary>
+            Handle Read request
+            </summary>
+            <param name="data">data from packet</param>
+            <param name="endpoint">client</param>
+        </member>
+        <member name="M:Acn.TFtp.TFTPServer.SendStream(System.Net.IPEndPoint,System.Int32)">
+            <summary>
+            Send part of a stream
+            </summary>
+            <param name="endpoint">location to send stream to</param>
+            <param name="BlockNumber">512 byte block to send</param>
+        </member>
+    </members>
+</doc>
