@@ -44,10 +44,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.endUniversNumUpDwn = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.universeSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.refreshNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.startUniversNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelHeightNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelWidthNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.endUniversNumUpDwn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.universeSizeNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.refreshNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // outputComboBox
@@ -58,7 +64,7 @@
             this.outputComboBox.FormattingEnabled = true;
             this.outputComboBox.Location = new System.Drawing.Point(95, 39);
             this.outputComboBox.Name = "outputComboBox";
-            this.outputComboBox.Size = new System.Drawing.Size(259, 21);
+            this.outputComboBox.Size = new System.Drawing.Size(324, 21);
             this.outputComboBox.TabIndex = 0;
             // 
             // listBox1
@@ -67,9 +73,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 206);
+            this.listBox1.Location = new System.Drawing.Point(12, 258);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(342, 199);
+            this.listBox1.Size = new System.Drawing.Size(407, 199);
             this.listBox1.TabIndex = 1;
             // 
             // label1
@@ -93,7 +99,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 119);
+            this.label3.Location = new System.Drawing.Point(12, 147);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 5;
@@ -102,7 +108,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 145);
+            this.label4.Location = new System.Drawing.Point(12, 173);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 6;
@@ -119,7 +125,7 @@
             0,
             0});
             this.startUniversNumUpDwn.Name = "startUniversNumUpDwn";
-            this.startUniversNumUpDwn.Size = new System.Drawing.Size(259, 20);
+            this.startUniversNumUpDwn.Size = new System.Drawing.Size(324, 20);
             this.startUniversNumUpDwn.TabIndex = 8;
             this.startUniversNumUpDwn.ValueChanged += new System.EventHandler(this.startUniversNumUpDwn_ValueChanged);
             // 
@@ -127,14 +133,14 @@
             // 
             this.panelHeightNumUpDwn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelHeightNumUpDwn.Location = new System.Drawing.Point(95, 117);
+            this.panelHeightNumUpDwn.Location = new System.Drawing.Point(95, 145);
             this.panelHeightNumUpDwn.Maximum = new decimal(new int[] {
             1024,
             0,
             0,
             0});
             this.panelHeightNumUpDwn.Name = "panelHeightNumUpDwn";
-            this.panelHeightNumUpDwn.Size = new System.Drawing.Size(259, 20);
+            this.panelHeightNumUpDwn.Size = new System.Drawing.Size(324, 20);
             this.panelHeightNumUpDwn.TabIndex = 9;
             this.panelHeightNumUpDwn.ValueChanged += new System.EventHandler(this.panelHeightNumUpDwn_ValueChanged);
             // 
@@ -142,14 +148,14 @@
             // 
             this.panelWidthNumUpDwn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelWidthNumUpDwn.Location = new System.Drawing.Point(95, 143);
+            this.panelWidthNumUpDwn.Location = new System.Drawing.Point(95, 171);
             this.panelWidthNumUpDwn.Maximum = new decimal(new int[] {
             1024,
             0,
             0,
             0});
             this.panelWidthNumUpDwn.Name = "panelWidthNumUpDwn";
-            this.panelWidthNumUpDwn.Size = new System.Drawing.Size(259, 20);
+            this.panelWidthNumUpDwn.Size = new System.Drawing.Size(324, 20);
             this.panelWidthNumUpDwn.TabIndex = 10;
             this.panelWidthNumUpDwn.ValueChanged += new System.EventHandler(this.panelWidthNumUpDwn_ValueChanged);
             // 
@@ -170,13 +176,13 @@
             this.inputComboBox.FormattingEnabled = true;
             this.inputComboBox.Location = new System.Drawing.Point(95, 12);
             this.inputComboBox.Name = "inputComboBox";
-            this.inputComboBox.Size = new System.Drawing.Size(259, 21);
+            this.inputComboBox.Size = new System.Drawing.Size(324, 21);
             this.inputComboBox.TabIndex = 13;
             // 
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(279, 171);
+            this.saveButton.Location = new System.Drawing.Point(344, 223);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 14;
@@ -201,7 +207,7 @@
             this.endUniversNumUpDwn.Location = new System.Drawing.Point(95, 93);
             this.endUniversNumUpDwn.Name = "endUniversNumUpDwn";
             this.endUniversNumUpDwn.ReadOnly = true;
-            this.endUniversNumUpDwn.Size = new System.Drawing.Size(259, 20);
+            this.endUniversNumUpDwn.Size = new System.Drawing.Size(324, 20);
             this.endUniversNumUpDwn.TabIndex = 16;
             // 
             // timer1
@@ -210,11 +216,81 @@
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 121);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Universe Size:";
+            // 
+            // universeSizeNumericUpDown
+            // 
+            this.universeSizeNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.universeSizeNumericUpDown.Location = new System.Drawing.Point(95, 119);
+            this.universeSizeNumericUpDown.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            this.universeSizeNumericUpDown.Minimum = new decimal(new int[] {
+            510,
+            0,
+            0,
+            0});
+            this.universeSizeNumericUpDown.Name = "universeSizeNumericUpDown";
+            this.universeSizeNumericUpDown.Size = new System.Drawing.Size(324, 20);
+            this.universeSizeNumericUpDown.TabIndex = 18;
+            this.universeSizeNumericUpDown.Value = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            // 
+            // refreshNumericUpDown
+            // 
+            this.refreshNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.refreshNumericUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.refreshNumericUpDown.Location = new System.Drawing.Point(95, 197);
+            this.refreshNumericUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.refreshNumericUpDown.Name = "refreshNumericUpDown";
+            this.refreshNumericUpDown.Size = new System.Drawing.Size(324, 20);
+            this.refreshNumericUpDown.TabIndex = 19;
+            this.refreshNumericUpDown.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 199);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(73, 13);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Data Refresh:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(366, 421);
+            this.ClientSize = new System.Drawing.Size(431, 480);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.refreshNumericUpDown);
+            this.Controls.Add(this.universeSizeNumericUpDown);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.endUniversNumUpDwn);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.saveButton);
@@ -237,6 +313,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelHeightNumUpDwn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelWidthNumUpDwn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.endUniversNumUpDwn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.universeSizeNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.refreshNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,6 +337,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown endUniversNumUpDwn;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown universeSizeNumericUpDown;
+        private System.Windows.Forms.NumericUpDown refreshNumericUpDown;
+        private System.Windows.Forms.Label label8;
     }
 }
 

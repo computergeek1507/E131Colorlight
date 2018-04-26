@@ -94,5 +94,29 @@ namespace E131Colorlight.Properties {
                 this["Input"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("512")]
+        public int UniverseSize {
+            get {
+                return ((int)(this["UniverseSize"]));
+            }
+            set {
+                this["UniverseSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int Refresh {
+            get {
+                return ((int)(this["Refresh"]));
+            }
+            set {
+                this["Refresh"] = value;
+            }
+        }
     }
 }

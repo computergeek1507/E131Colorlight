@@ -22,6 +22,8 @@ namespace E131Colorlight
         int _panelHeight;
         int _selectedOutput;
         string _selectedInput;
+        int _universeSize;
+        //int _refresh;
 
         byte[] _channelData;
 
@@ -41,6 +43,12 @@ namespace E131Colorlight
                 }
             }
 #endif
+
+            _selectedOutput = Properties.Settings.Default.Output;
+            _startUniverse = Properties.Settings.Default.Universe;
+            _panelHeight = Properties.Settings.Default.PanelHeight;
+            _panelWidth = Properties.Settings.Default.PanelWidth;
+           _universeSize = Properties.Settings.Default.UniverseSize;
             InitializeComponent();
         }
 
@@ -83,10 +91,12 @@ namespace E131Colorlight
                 }
             }
 
-            outputComboBox.SelectedIndex = _selectedOutput =  Properties.Settings.Default.Output;
-            startUniversNumUpDwn.Value = _startUniverse = Properties.Settings.Default.Universe;
-            panelHeightNumUpDwn.Value = _panelHeight = Properties.Settings.Default.PanelHeight;
-            panelWidthNumUpDwn.Value = _panelWidth = Properties.Settings.Default.PanelWidth;
+            outputComboBox.SelectedIndex = _selectedOutput;
+            startUniversNumUpDwn.Value = _startUniverse;
+            panelHeightNumUpDwn.Value = _panelHeight;
+            panelWidthNumUpDwn.Value = _panelWidth;
+            refreshNumericUpDown.Value = timer1.Interval = Properties.Settings.Default.Refresh;
+            universeSizeNumericUpDown.Value = _universeSize;
 
             string test = Properties.Settings.Default.Input;
             _selectedInput = inputComboBox.Text = test;
@@ -108,7 +118,10 @@ namespace E131Colorlight
             _panelHeight = Properties.Settings.Default.PanelHeight = Decimal.ToInt32(panelHeightNumUpDwn.Value);
             _panelWidth = Properties.Settings.Default.PanelWidth = Decimal.ToInt32(panelWidthNumUpDwn.Value);
             //_selectedInput = Properties.Settings.Default.Input = inputComboBox.Items[inputComboBox.SelectedIndex].ToString();
-            _selectedInput = Properties.Settings.Default.Input = inputComboBox.Text;
+
+            Properties.Settings.Default.Refresh = timer1.Interval = Decimal.ToInt32(refreshNumericUpDown.Value);
+            _universeSize = Properties.Settings.Default.UniverseSize = Decimal.ToInt32(universeSizeNumericUpDown.Value);
+
             Properties.Settings.Default.Save();
             calculateEndUniveres();
 
@@ -305,7 +318,7 @@ namespace E131Colorlight
             int height = Decimal.ToInt32(Properties.Settings.Default.PanelHeight);
 
             int total = width * height * 3;
-            double length = Math.Ceiling(total / 512.0);
+            double length = Math.Ceiling(total / (double)_universeSize);
 
             int start = Decimal.ToInt32(startUniversNumUpDwn.Value);
 
@@ -338,13 +351,13 @@ namespace E131Colorlight
             int startUniverse = _startUniverse;
             int universeOffset = incomingUniverse - startUniverse;
 
-            int offset = universeOffset * 512;
+            int offset = universeOffset * _universeSize;
 
-            if (offset < 0 || _channelData.Length < (offset + 512))
+            if (offset < 0 || _channelData.Length < (offset + _universeSize))
                 return;
 
             //based on universe store data to channel data array
-            for (int i=0;i<512;i++ )
+            for (int i=0;i< _universeSize; i++ )
             {
                 _channelData[i + offset] = data.Dmx.Data[i+1];
             }
