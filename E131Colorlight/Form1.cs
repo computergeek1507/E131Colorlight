@@ -325,7 +325,9 @@ namespace E131Colorlight
             int end = start + (int)length + -1;
            endUniversNumUpDwn.Value = end;
 
-            _channelData = new byte[total];
+            int newTotal = (int)length * (int)_universeSize;
+
+            _channelData = new byte[newTotal];
         }
 
         /// <summary>
@@ -351,13 +353,25 @@ namespace E131Colorlight
             int startUniverse = _startUniverse;
             int universeOffset = incomingUniverse - startUniverse;
 
-            int offset = universeOffset * _universeSize;
+            int tempUniversSize = _universeSize;
+            if(_universeSize> data.Dmx.Data.Length)
+            {
+                MethodInvoker action5 = delegate
+                {
+                    listBox1.Items.Add("UniverseSize is larger than Incoming Data Size");
+                };
+                listBox1.BeginInvoke(action5);
+                //listBox1.Items.Add("UniverseSize is larger than Incoming Data Size");
+                tempUniversSize = data.Dmx.Data.Length - 1;
+            }
 
-            if (offset < 0 || _channelData.Length < (offset + _universeSize))
+            int offset = universeOffset * tempUniversSize;
+
+            if (offset < 0 || _channelData.Length < (offset + tempUniversSize))
                 return;
 
             //based on universe store data to channel data array
-            for (int i=0;i< _universeSize; i++ )
+            for (int i=0;i< tempUniversSize; i++ )
             {
                 _channelData[i + offset] = data.Dmx.Data[i+1];
             }
