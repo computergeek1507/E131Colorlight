@@ -205,6 +205,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.endUniversNumUpDwn.Enabled = false;
             this.endUniversNumUpDwn.Location = new System.Drawing.Point(95, 93);
+            this.endUniversNumUpDwn.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
             this.endUniversNumUpDwn.Name = "endUniversNumUpDwn";
             this.endUniversNumUpDwn.ReadOnly = true;
             this.endUniversNumUpDwn.Size = new System.Drawing.Size(324, 20);
