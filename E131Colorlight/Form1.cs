@@ -27,7 +27,10 @@ namespace E131Colorlight
 
         byte[] _channelData;
 
-        private StreamingAcnSocket socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
+        Stopwatch _swMain = new Stopwatch();
+        Stopwatch sw = new Stopwatch();
+
+        private StreamingAcnSocket _socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
 
         public Form1()
         {
@@ -43,7 +46,7 @@ namespace E131Colorlight
                 }
             }
 #endif
-
+            _swMain.Start();
             _selectedOutput = Properties.Settings.Default.Output;
             _startUniverse = Properties.Settings.Default.Universe;
             _panelHeight = Properties.Settings.Default.PanelHeight;
@@ -101,14 +104,14 @@ namespace E131Colorlight
             string test = Properties.Settings.Default.Input;
             _selectedInput = inputComboBox.Text = test;
 
-            calculateEndUniveres();
+            CalculateEndUniveres();
 
             Start(IPAddress.Parse(_selectedInput), Decimal.ToInt32(startUniversNumUpDwn.Value), Decimal.ToInt32(endUniversNumUpDwn.Value));
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            socket.Close();
+            _socket.Close();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -123,29 +126,37 @@ namespace E131Colorlight
             _universeSize = Properties.Settings.Default.UniverseSize = Decimal.ToInt32(universeSizeNumericUpDown.Value);
 
             Properties.Settings.Default.Save();
-            calculateEndUniveres();
+            CalculateEndUniveres();
 
             Start(IPAddress.Parse(_selectedInput), Decimal.ToInt32(startUniversNumUpDwn.Value), Decimal.ToInt32(endUniversNumUpDwn.Value));
         }
 
         private void startUniversNumUpDwn_ValueChanged(object sender, EventArgs e)
         {
-            calculateEndUniveres();
+            CalculateEndUniveres();
         }
 
         private void panelHeightNumUpDwn_ValueChanged(object sender, EventArgs e)
         {
-            calculateEndUniveres();
+            CalculateEndUniveres();
         }
 
         private void panelWidthNumUpDwn_ValueChanged(object sender, EventArgs e)
         {
-            calculateEndUniveres();
+            CalculateEndUniveres();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            outputToPanel();
+            sw.Restart();
+            timer1.Stop();
+            OutputToPanel();
+            timer1.Start();
+            sw.Stop();
+            _swMain.Stop();
+            textBoxOutput.Text = String.Format("Write Time={0}ms Step Delay={1}ms", sw.Elapsed.TotalMilliseconds, _swMain.Elapsed.TotalMilliseconds);
+            _swMain.Restart();
+            //Console.WriteLine("Elapsed={0}", sw.Elapsed);
         }
 
         void socket_NewPacket(object sender, NewPacketEventArgs<StreamingAcnDmxPacket> e)
@@ -153,7 +164,7 @@ namespace E131Colorlight
             StreamingAcnDmxPacket dmxPacket = e.Packet as StreamingAcnDmxPacket;
             if (dmxPacket != null)
             {
-                DecodeDMXData(dmxPacket);
+                DecodeDmxData(dmxPacket);
             }
         }
 
@@ -312,7 +323,7 @@ namespace E131Colorlight
         /// <summary>
         /// Calc End Universe and data size.
         /// </summary>
-        void calculateEndUniveres()
+        void CalculateEndUniveres()
         {
             int width = Decimal.ToInt32(Properties.Settings.Default.PanelWidth);
             int height = Decimal.ToInt32(Properties.Settings.Default.PanelHeight);
@@ -335,18 +346,18 @@ namespace E131Colorlight
         /// </summary>
         private void Start(IPAddress networkCard, int startUniverse, int endUniverse)
         {
-            socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
-            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.StreamingAcnDmxPacket>>(socket_NewPacket);
-            socket.Open(networkCard);
+            _socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
+            _socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.StreamingAcnDmxPacket>>(socket_NewPacket);
+            _socket.Open(networkCard);
 
             for(int universe = startUniverse; universe<= endUniverse; universe++)
-                socket.JoinDmxUniverse(universe);
+                _socket.JoinDmxUniverse(universe);
         }
 
         /// <summary>
         /// Start the E.131 Lisener.
         /// </summary>
-        void DecodeDMXData(StreamingAcnDmxPacket data)
+        void DecodeDmxData(StreamingAcnDmxPacket data)
         {
             int incomingUniverse = data.Framing.Universe;
 
@@ -380,14 +391,14 @@ namespace E131Colorlight
         /// <summary>
         /// Output Channel Data to Color Light Card.
         /// </summary>
-        void outputToPanel()
+        void OutputToPanel()
         {
             try
             {
                 PacketDevice selectedDevice = _allDevices[_selectedOutput];
                 using (PacketCommunicator communicator = selectedDevice.Open(100, // name of the device
                                                                          PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                                                         1000)) // read timeout
+                                                                         100)) // read timeout
                 {
                     MacAddress source = new MacAddress("22:22:33:44:55:66");
 
@@ -411,6 +422,11 @@ namespace E131Colorlight
             {
                 listBox1.Items.Add(ex.Message);
             }
+        }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
         }
     }
 }
