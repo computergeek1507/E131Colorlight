@@ -428,5 +428,11 @@ namespace E131Colorlight
         {
             listBox1.Items.Clear();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            PanelTest test = new PanelTest(ref _channelData, _panelWidth, _panelHeight);
+            test.ShowDialog();
+        }
     }
 }

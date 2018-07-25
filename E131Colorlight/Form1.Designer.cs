@@ -50,6 +50,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.buttonClear = new System.Windows.Forms.Button();
             this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.startUniversNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelHeightNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelWidthNumUpDwn)).BeginInit();
@@ -272,7 +273,7 @@
             0,
             0});
             this.refreshNumericUpDown.Minimum = new decimal(new int[] {
-            1,
+            15,
             0,
             0,
             0});
@@ -297,7 +298,7 @@
             // buttonClear
             // 
             this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(263, 223);
+            this.buttonClear.Location = new System.Drawing.Point(209, 223);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(75, 23);
             this.buttonClear.TabIndex = 21;
@@ -312,14 +313,26 @@
             this.textBoxOutput.Location = new System.Drawing.Point(12, 226);
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
-            this.textBoxOutput.Size = new System.Drawing.Size(245, 20);
+            this.textBoxOutput.Size = new System.Drawing.Size(191, 20);
             this.textBoxOutput.TabIndex = 22;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(290, 223);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(48, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "Test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(431, 480);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.label8);
@@ -378,6 +391,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.TextBox textBoxOutput;
+        private System.Windows.Forms.Button button1;
     }
 }
 
