@@ -23,6 +23,7 @@ namespace E131Colorlight
         int _selectedOutput;
         string _selectedInput;
         int _universeSize;
+        int _brightness;
         //int _refresh;
 
         byte[] _channelData;
@@ -51,7 +52,8 @@ namespace E131Colorlight
             _startUniverse = Properties.Settings.Default.Universe;
             _panelHeight = Properties.Settings.Default.PanelHeight;
             _panelWidth = Properties.Settings.Default.PanelWidth;
-           _universeSize = Properties.Settings.Default.UniverseSize;
+            _universeSize = Properties.Settings.Default.UniverseSize;
+            _brightness = Properties.Settings.Default.Brightness;
             InitializeComponent();
         }
 
@@ -70,7 +72,6 @@ namespace E131Colorlight
                         if (adapter.GetIPProperties().UnicastAddresses[n].Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
                             inputComboBox.Items.Add(adapter.GetIPProperties().UnicastAddresses[n].Address);
-
                         }
                     }
                 }
@@ -100,6 +101,7 @@ namespace E131Colorlight
             panelWidthNumUpDwn.Value = _panelWidth;
             refreshNumericUpDown.Value = timer1.Interval = Properties.Settings.Default.Refresh;
             universeSizeNumericUpDown.Value = _universeSize;
+            brightnessNumericUpDown.Value = _brightness;
 
             string test = Properties.Settings.Default.Input;
             _selectedInput = inputComboBox.Text = test;
@@ -121,6 +123,7 @@ namespace E131Colorlight
             _panelHeight = Properties.Settings.Default.PanelHeight = Decimal.ToInt32(panelHeightNumUpDwn.Value);
             _panelWidth = Properties.Settings.Default.PanelWidth = Decimal.ToInt32(panelWidthNumUpDwn.Value);
             //_selectedInput = Properties.Settings.Default.Input = inputComboBox.Items[inputComboBox.SelectedIndex].ToString();
+            _brightness = Properties.Settings.Default.Brightness = Decimal.ToInt32(brightnessNumericUpDown.Value);
 
             Properties.Settings.Default.Refresh = timer1.Interval = Decimal.ToInt32(refreshNumericUpDown.Value);
             _universeSize = Properties.Settings.Default.UniverseSize = Decimal.ToInt32(universeSizeNumericUpDown.Value);
@@ -305,7 +308,11 @@ namespace E131Colorlight
             for (int i = 0; i < width; i++)
             {
                 int indexwHead = 7 + i;
-                mainByte[indexwHead] = data[i + (dataOffset*3)];
+                byte oldValue = data[i + (dataOffset * 3)];
+                int oldint = Convert.ToInt32(data[i + (dataOffset * 3)]);
+                int newint = ((oldValue * _brightness) / 100);
+                byte newValue = Convert.ToByte(newint);
+                mainByte[indexwHead] = newValue;
                 //mainByte[indexwHead] = 0x88;
             }
 
