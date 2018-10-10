@@ -93,21 +93,21 @@ namespace E131Colorlight
                     {
                         if (_index == 1)
                         {
-                            _channelData[rowOffset + (j * 3) + offset] = 255;
-                            _channelData[rowOffset + (j * 3) + offset + 1] = 0;
-                            _channelData[rowOffset + (j * 3) + offset + 2] = 0;
+                            SetChanelData(rowOffset + (j * 3) + offset, 255);
+                            SetChanelData(rowOffset + (j * 3) + offset + 1, 0);
+                            SetChanelData(rowOffset + (j * 3) + offset + 2, 0);
                         }
                         else if (_index == 2)
                         {
-                            _channelData[rowOffset + (j * 3) + offset] = 0;
-                            _channelData[rowOffset + (j * 3) + offset + 1] = 255;
-                            _channelData[rowOffset + (j * 3) + offset + 2] = 0;
+                            SetChanelData(rowOffset + (j * 3) + offset, 0);
+                            SetChanelData(rowOffset + (j * 3) + offset + 1, 255);
+                            SetChanelData(rowOffset + (j * 3) + offset + 2,0);
                         }
                         else if (_index == 3)
                         {
-                            _channelData[rowOffset + (j * 3) + offset] = 0;
-                            _channelData[rowOffset + (j * 3) + offset + 1] = 0;
-                            _channelData[rowOffset + (j * 3) + offset + 2] = 255;
+                            SetChanelData(rowOffset + (j * 3) + offset, 0);
+                            SetChanelData(rowOffset + (j * 3) + offset + 1, 0);
+                            SetChanelData(rowOffset + (j * 3) + offset + 2, 255);
                         }
                     }
                 }
@@ -118,45 +118,45 @@ namespace E131Colorlight
                 {
                     if (_index == 1)
                     {
-                        _channelData[(i * 9)] = 255;
-                        _channelData[(i * 9) + 1] = 0;
-                        _channelData[(i * 9) + 2] = 0;
+                        SetChanelData((i * 9),255);
+                        SetChanelData((i * 9) + 1, 0);
+                        SetChanelData((i * 9) + 2, 0);
 
-                        _channelData[(i * 9) + 3] = 0;
-                        _channelData[(i * 9) + 4] = 255;
-                        _channelData[(i * 9) + 5] = 0;
+                        SetChanelData((i * 9) + 3, 0);
+                        SetChanelData((i * 9) + 4, 255);
+                        SetChanelData((i * 9) + 5, 0);
 
-                        _channelData[(i * 9) + 6] = 0;
-                        _channelData[(i * 9) + 7] = 0;
-                        _channelData[(i * 9) + 8] = 255;
+                        SetChanelData((i * 9) + 6, 0);
+                        SetChanelData((i * 9) + 7, 0);
+                        SetChanelData((i * 9) + 8, 255);
                     }
                     else if (_index == 2)
                     {
-                        _channelData[(i * 9)] = 0;
-                        _channelData[(i * 9) + 1] = 255;
-                        _channelData[(i * 9) + 2] = 0;
+                        SetChanelData((i * 9), 0);
+                        SetChanelData((i * 9) + 1, 255);
+                        SetChanelData((i * 9) + 2, 0);
 
-                        _channelData[(i * 9) + 3] = 0;
-                        _channelData[(i * 9) + 4] = 0;
-                        _channelData[(i * 9) + 5] = 255;
+                        SetChanelData((i * 9) + 3, 0);
+                        SetChanelData((i * 9) + 4, 0);
+                        SetChanelData((i * 9) + 5, 255);
 
-                        _channelData[(i * 9) + 6] = 255;
-                        _channelData[(i * 9) + 7] = 0;
-                        _channelData[(i * 9) + 8] = 0;
+                        SetChanelData((i * 9) + 6, 255);
+                        SetChanelData((i * 9) + 7, 0);
+                        SetChanelData((i * 9) + 8, 0);
                     }
                     else if (_index == 3)
                     {
-                        _channelData[(i * 9)] = 0;
-                        _channelData[(i * 9) + 1] = 0;
-                        _channelData[(i * 9) + 2] = 255;
+                        SetChanelData((i * 9), 0);
+                        SetChanelData((i * 9) + 1, 0);
+                        SetChanelData((i * 9) + 2, 255);
 
-                        _channelData[(i * 9) + 3] = 255;
-                        _channelData[(i * 9) + 4] = 0;
-                        _channelData[(i * 9) + 5] = 0;
+                        SetChanelData((i * 9) + 3, 255);
+                        SetChanelData((i * 9) + 4, 0);
+                        SetChanelData((i * 9) + 5, 0);
 
-                        _channelData[(i * 9) + 6] = 0;
-                        _channelData[(i * 9) + 7] = 255;
-                        _channelData[(i * 9) + 8] = 0;
+                        SetChanelData((i * 9) + 6, 0);
+                        SetChanelData((i * 9) + 7, 255);
+                        SetChanelData((i * 9) + 8, 0);
                     }
                 }
             }
@@ -169,6 +169,13 @@ namespace E131Colorlight
             {
                 _channelData[i] = 0;
             }
+        }
+
+        void SetChanelData(int address, byte value)
+        {
+            if(address >= _channelData.Length)
+                return;
+            _channelData[address] = value;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
