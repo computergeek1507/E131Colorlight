@@ -46,8 +46,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label7 = new System.Windows.Forms.Label();
             this.universeSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.refreshNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
             this.buttonClear = new System.Windows.Forms.Button();
             this.textBoxOutput = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -58,7 +56,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelWidthNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.endUniversNumUpDwn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.universeSizeNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.refreshNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.brightnessNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,9 +76,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 284);
+            this.listBox1.Location = new System.Drawing.Point(12, 258);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(407, 173);
+            this.listBox1.Size = new System.Drawing.Size(407, 199);
             this.listBox1.TabIndex = 1;
             // 
             // label1
@@ -188,7 +185,7 @@
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(344, 251);
+            this.saveButton.Location = new System.Drawing.Point(344, 225);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 14;
@@ -223,7 +220,6 @@
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
@@ -260,48 +256,10 @@
             0,
             0});
             // 
-            // refreshNumericUpDown
-            // 
-            this.refreshNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshNumericUpDown.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.refreshNumericUpDown.Location = new System.Drawing.Point(95, 225);
-            this.refreshNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.refreshNumericUpDown.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.refreshNumericUpDown.Name = "refreshNumericUpDown";
-            this.refreshNumericUpDown.Size = new System.Drawing.Size(324, 20);
-            this.refreshNumericUpDown.TabIndex = 19;
-            this.refreshNumericUpDown.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(14, 227);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(73, 13);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "Data Refresh:";
-            // 
             // buttonClear
             // 
             this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(209, 251);
+            this.buttonClear.Location = new System.Drawing.Point(209, 225);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(75, 23);
             this.buttonClear.TabIndex = 21;
@@ -313,7 +271,7 @@
             // 
             this.textBoxOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxOutput.Location = new System.Drawing.Point(12, 253);
+            this.textBoxOutput.Location = new System.Drawing.Point(12, 227);
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
             this.textBoxOutput.Size = new System.Drawing.Size(191, 20);
@@ -322,7 +280,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(290, 251);
+            this.button1.Location = new System.Drawing.Point(290, 225);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(48, 23);
             this.button1.TabIndex = 23;
@@ -368,8 +326,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.buttonClear);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.refreshNumericUpDown);
             this.Controls.Add(this.universeSizeNumericUpDown);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.endUniversNumUpDwn);
@@ -395,7 +351,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelWidthNumUpDwn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.endUniversNumUpDwn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.universeSizeNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.refreshNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.brightnessNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -421,8 +376,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown universeSizeNumericUpDown;
-        private System.Windows.Forms.NumericUpDown refreshNumericUpDown;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.TextBox textBoxOutput;
         private System.Windows.Forms.Button button1;

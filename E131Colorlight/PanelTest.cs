@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,6 +13,9 @@ namespace E131Colorlight
 {
     public partial class PanelTest : Form
     {
+        public event EventHandler SendOutput;
+        public event EventHandler ClearOutput;
+
         private byte[] _channelData;
         private int _width;
         private int _height;
@@ -32,10 +36,10 @@ namespace E131Colorlight
             timer1.Enabled = checkBox1.Checked;
             if (!checkBox1.Checked)
             {
-                for (int i = 0; i < _channelData.Length; i++)
-                {
-                    _channelData[i] = 0;
-                }
+                //Thread.Sleep(1000);
+                OnClearOutput();
+                OnClearOutput();
+                //OnClearOutput();
             }
         }
 
@@ -50,10 +54,17 @@ namespace E131Colorlight
         private void timer1_Tick(object sender, EventArgs e)
         {
             DrawTestPattern();
+            OnSentOutput();
         }
 
         private void DrawTestPattern()
         {
+            if (!checkBox1.Checked)
+            {
+                OnClearOutput();
+                return;
+            }
+
             //_channelData
             _index = _index % 3;
             _index++;
@@ -165,10 +176,15 @@ namespace E131Colorlight
         private void PanelTest_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Enabled = false;
-            for (int i = 0; i < _channelData.Length; i++)
-            {
-                _channelData[i] = 0;
-            }
+            //for (int i = 0; i < _channelData.Length; i++)
+            //{
+            //    _channelData[i] = 0;
+            //}
+            //OnSentOutput();
+            //Thread.Sleep(1000);
+            OnClearOutput();
+            OnClearOutput();
+            //OnClearOutput();
         }
 
         void SetChanelData(int address, byte value)
@@ -182,5 +198,9 @@ namespace E131Colorlight
         {
             timer1.Interval = Decimal.ToInt32(numericUpDown1.Value);
         }
+
+        void OnSentOutput() => SendOutput.Invoke(this, null);
+
+        void OnClearOutput() => ClearOutput.Invoke(this, null);
     }
 }

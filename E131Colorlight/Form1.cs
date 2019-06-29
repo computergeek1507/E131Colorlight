@@ -18,9 +18,11 @@ namespace E131Colorlight
     {
         IList<LivePacketDevice> _allDevices;
         int _startUniverse;
+        int _endUniverse;
         int _panelWidth;
         int _panelHeight;
-        int _selectedOutput;
+        int _intSelectOutput = -1;
+        string _selectedOutput;
         string _selectedInput;
         int _universeSize;
         int _brightness;
@@ -95,11 +97,16 @@ namespace E131Colorlight
                 }
             }
 
-            outputComboBox.SelectedIndex = _selectedOutput;
+            int index = outputComboBox.FindString(_selectedOutput);
+            if (index != -1)
+            {
+                outputComboBox.SelectedIndex = _intSelectOutput = index;
+            }
+            
             startUniversNumUpDwn.Value = _startUniverse;
             panelHeightNumUpDwn.Value = _panelHeight;
             panelWidthNumUpDwn.Value = _panelWidth;
-            refreshNumericUpDown.Value = timer1.Interval = Properties.Settings.Default.Refresh;
+            //refreshNumericUpDown.Value = timer1.Interval = Properties.Settings.Default.Refresh;
             universeSizeNumericUpDown.Value = _universeSize;
             brightnessNumericUpDown.Value = _brightness;
 
@@ -118,14 +125,14 @@ namespace E131Colorlight
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            _selectedOutput = Properties.Settings.Default.Output = outputComboBox.SelectedIndex;
+            _selectedOutput = Properties.Settings.Default.Output = outputComboBox.SelectedItem.ToString();
+            _intSelectOutput = outputComboBox.SelectedIndex;
             _startUniverse = Properties.Settings.Default.Universe = Decimal.ToInt32(startUniversNumUpDwn.Value);
             _panelHeight = Properties.Settings.Default.PanelHeight = Decimal.ToInt32(panelHeightNumUpDwn.Value);
             _panelWidth = Properties.Settings.Default.PanelWidth = Decimal.ToInt32(panelWidthNumUpDwn.Value);
             //_selectedInput = Properties.Settings.Default.Input = inputComboBox.Items[inputComboBox.SelectedIndex].ToString();
             _brightness = Properties.Settings.Default.Brightness = Decimal.ToInt32(brightnessNumericUpDown.Value);
 
-            Properties.Settings.Default.Refresh = timer1.Interval = Decimal.ToInt32(refreshNumericUpDown.Value);
             _universeSize = Properties.Settings.Default.UniverseSize = Decimal.ToInt32(universeSizeNumericUpDown.Value);
 
             Properties.Settings.Default.Save();
@@ -341,7 +348,8 @@ namespace E131Colorlight
             int start = Decimal.ToInt32(startUniversNumUpDwn.Value);
 
             int end = start + (int)length + -1;
-           endUniversNumUpDwn.Value = end;
+            endUniversNumUpDwn.Value = end;
+            _endUniverse = end;
 
             int newTotal = (int)length * (int)_universeSize;
 
@@ -389,10 +397,13 @@ namespace E131Colorlight
                 return;
 
             //based on universe store data to channel data array
-            for (int i=0;i< tempUniversSize; i++ )
+            for (int i = 0; i< tempUniversSize; i++ )
             {
-                _channelData[i + offset] = data.Dmx.Data[i+1];
+                _channelData[i + offset] = data.Dmx.Data[i + 1];
             }
+
+            if (_endUniverse == incomingUniverse)
+                OutputToPanel();
         }
 
         /// <summary>
@@ -402,7 +413,9 @@ namespace E131Colorlight
         {
             try
             {
-                PacketDevice selectedDevice = _allDevices[_selectedOutput];
+                if (_intSelectOutput == -1)
+                    return;
+                PacketDevice selectedDevice = _allDevices[_intSelectOutput];
                 using (PacketCommunicator communicator = selectedDevice.Open(100, // name of the device
                                                                          PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
                                                                          100)) // read timeout
@@ -433,13 +446,35 @@ namespace E131Colorlight
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < _channelData.Length; i++)
+            {
+                _channelData[i] = 0;
+            }
+            OutputToPanel();
             listBox1.Items.Clear();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             PanelTest test = new PanelTest(ref _channelData, _panelWidth, _panelHeight);
+
+            test.SendOutput += EventSendOutput;
+            test.ClearOutput += EventClearOutput;
             test.ShowDialog();
+        }
+
+        private void EventSendOutput(object sender, EventArgs e)
+        {
+            OutputToPanel();
+        }
+
+        private void EventClearOutput(object sender, EventArgs e)
+        {
+            for (int i = 0; i < _channelData.Length; i++)
+            {
+                _channelData[i] = 0;
+            }
+            OutputToPanel();
         }
     }
 }
