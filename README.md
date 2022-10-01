@@ -3,7 +3,7 @@
 Simple application to translate E.131 data to ethernet packets needed by the colorlight board. Windows Only. Requires WinPcap and must be run as administrator.
 
 
-### Trouble Shooting the E131Colorlight
+### Trouble Shooting E131Colorlight app
 
 This Plugin uses Pcap.Net, Verify these packages are installed:
 * Install WinPcap 4.1.3 (available at <http://www.winpcap.org>).
